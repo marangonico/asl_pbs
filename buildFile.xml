@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <VASSAL.build.module.ModuleExtension anyModule="false" description="ASL PBS (Play Both Sides)" extensionId="26d" module="VASL" moduleVersion="6.7.2-beta4" nextPieceSlotId="14717" vassalVersion="3.7.20" version="0.99a">
-    <VASSAL.build.module.ExtensionElement target="VASL.build.module.ASLMap">
-        <VASL.build.module.ASLPBSChecker CheckActivationsKey="83,650" ClearFlaresKey="88,650" Name="ASLPBSChecker"/>
-    </VASSAL.build.module.ExtensionElement>
     <VASSAL.build.module.ExtensionElement target="">
         <VASSAL.build.module.PieceWindow defaultWidth="0" hidden="false" hotkey="" icon="" name="PBS Counters" scale="1.0" text="PBS Counters" tooltip="Show/Hide the null window">
             <VASSAL.build.widget.TabWidget entryName="All PBS Counters">
@@ -61,7 +58,7 @@
         <VASSAL.build.module.Map allowMultiple="false" backgroundcolor="255,255,255" buttonName="PBS Tracker Sheet" changeFormat="$message$" color="0,0,0" createFormat="$pieceName$ created in $location$ *" description="" edgeHeight="0" edgeWidth="0" hideKey="" hotkey="" icon="/images/map.gif" launch="true" mapName="PBS Tracker Sheet" markMoved="Never" markUnmovedHotkey="" markUnmovedIcon="/images/unmoved.gif" markUnmovedReport="" markUnmovedText="" markUnmovedTooltip="Mark all pieces on this map as not moved" moveKey="" moveToFormat="$pieceName$ moves $previousLocation$ &amp;rarr; $location$ *" moveWithinFormat="$pieceName$ moves $previousLocation$ &amp;rarr; $location$ *" onlyReportChangedLocation="false" showKey="" thickness="3">
             <VASSAL.build.module.map.BoardPicker addColumnText="Add column" addRowText="Add row" boardPrompt="Select board" slotHeight="125" slotScale="0.2" slotWidth="350" title="Choose Boards">
                 <VASSAL.build.module.map.boardPicker.Board image="tracker_sheet.png" name="PBS Tracker Sheet" reversible="false">
-                    <VASSAL.build.module.map.boardPicker.board.RegionGrid fontsize="9" snapto="false" visible="false">
+                    <VASSAL.build.module.map.boardPicker.board.RegionGrid fontsize="9" snapto="false" visible="true">
                         <VASSAL.build.module.map.boardPicker.board.Region name="VPAllied" originx="118" originy="14"/>
                         <VASSAL.build.module.map.boardPicker.board.Region name="VPAxis" originx="60" originy="14"/>
                         <VASSAL.build.module.map.boardPicker.board.Region name="NVR" originx="56" originy="198"/>
@@ -76,6 +73,10 @@
                         <VASSAL.build.module.map.boardPicker.board.Region name="AlliedNoQuarter" originx="861" originy="792"/>
                         <VASSAL.build.module.map.boardPicker.board.Region name="AxisNoQuarter" originx="861" originy="869"/>
                         <VASSAL.build.module.map.boardPicker.board.Region name="Attacks" originx="800" originy="514"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="NatA1" originx="153" originy="992"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="NatA2" originx="245" originy="994"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="NatB1" originx="574" originy="992"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="NatB2" originx="660" originy="992"/>
                     </VASSAL.build.module.map.boardPicker.board.RegionGrid>
                 </VASSAL.build.module.map.boardPicker.Board>
             </VASSAL.build.module.map.BoardPicker>
@@ -289,6 +290,6 @@
         <VASSAL.build.module.DiceButton addToTotal="0" canDisable="false" disabledIcon="" hideWhenDisabled="false" hotkey="" icon="" keepCount="1" keepDice="false" keepOption="&gt;" lockAdd="false" lockDice="false" lockPlus="false" lockSides="false" nDice="1" nSides="10" name="1d10" plus="0" prompt="false" propertyGate="" reportFormat="** $name$ = $result$ *** &amp;lt;$PlayerName$&amp;gt;" reportTotal="false" sortDice="false" text="1d10" tooltip="1d10"/>
     </VASSAL.build.module.ExtensionElement>
     <VASSAL.build.module.ExtensionElement target="">
-        <VASL.build.module.ASLPBSChecker Name="ASLPBSChecker"/>
+        <VASL.build.module.ASLPBSChecker CheckActivationsKey="57353,0,d85f6a41" ClearFlaresKey="57352,0,d85f6a40" Name="ASLPBSChecker"/>
     </VASSAL.build.module.ExtensionElement>
 </VASSAL.build.module.ModuleExtension>
