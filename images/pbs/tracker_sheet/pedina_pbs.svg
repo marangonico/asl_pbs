@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+  <!-- Light blue circular token with subtle border -->
+  <defs>
+    <linearGradient id="shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <circle cx="24" cy="24" r="22" fill="#66B3FF" stroke="#2D6AA3" stroke-width="2"/>
+  <!-- Soft highlight -->
+  <ellipse cx="18" cy="14" rx="10" ry="6" fill="url(#shine)"/>
+  <!-- PBS text rotated 45 degrees from bottom-left to top-right -->
+  <g transform="rotate(-45,24,24)">
+    <text x="24" y="28" text-anchor="middle" font-family="Montserrat,Segoe UI,Arial,sans-serif"
+          font-weight="800" font-size="16" fill="#FFFFFF" letter-spacing="1">
+      PBS
+    </text>
+  </g>
+</svg>

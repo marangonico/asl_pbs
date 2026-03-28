@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<VASSAL.build.module.ModuleExtension anyModule="false" description="ASL PBS (Play Both Sides)" extensionId="26d" module="VASL" moduleVersion="6.7.2-beta4" nextPieceSlotId="14717" vassalVersion="3.7.20" version="0.99a">
+    <VASSAL.build.module.ExtensionElement target="">
+        <VASSAL.build.module.PieceWindow defaultWidth="0" hidden="false" hotkey="" icon="" name="PBS Counters" scale="1.0" text="PBS Counters" tooltip="Show/Hide the null window">
+            <VASSAL.build.widget.TabWidget entryName="All PBS Counters">
+                <VASSAL.build.widget.PanelWidget entryName="Aider counters" fixed="true" nColumns="4" scale="1.0" vert="false">
+                    <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14657" height="48" width="48">+/null/emb2;Activate;128;A;;128;;;128;;;;1;false;0;0;pbs\/aider\/OFTC_DRM.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14657;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14656" height="48" width="48">+/null/emb2;Activate;128;A;;128;;;128;;;;1;false;0;0;pbs\/aider\/TH.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14656;1;ppScale;1.0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14658" height="48" width="48">+/null/emb2;Activate;128;A;;128;;;128;;;;1;false;0;0;pbs\/aider\/TH_DRM.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14658;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName=": S Range" gpid="26d:14665" height="48" width="47">+/null/emb2;Activate;128;A;Flip;128;;;128;;;;1;false;0;0;pbs\/aider\/S_range_suppression.png,pbs\/aider\/L_range_interdiction.png;+: S Range,+: L Range;true;;;;false;;1;1;true;65,130;70,130;;;0.15;;true	piece;;;;/1	null;0;0;26d:14665;2;ClickedX;0;ClickedY;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName=": MP" gpid="26d:14659" height="48" width="48">+/null/emb2;Activate;128;A;Cycle;128;;;128;;;;1;false;0;0;pbs\/aider\/MP.png,pbs\/aider\/MP+10.png,pbs\/aider\/MP+20.png,pbs\/aider\/MP+30.png;+: MP,+: \+10 MP,+: \+20 MP,+: \+30 MP;true;;;;false;;1;1;true;65,130;70,130;;;0.15;;true	piece;;;;/1	null;0;0;26d:14659;2;ClickedX;0;ClickedY;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14666" height="48" width="48">+/null/emb2;Activate;128;A;;128;;;128;;;;;false;0;0;pbs\/aider\/MP+10.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14666;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14662" height="48" width="48">+/null/emb2;Activate;128;A;;128;;;128;;;;;false;0;0;pbs\/aider\/MP+20.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14662;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14663" height="48" width="47">+/null/emb2;Activate;128;A;;128;;;128;;;;;false;0;0;pbs\/aider\/MP+30.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14663;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14664" height="48" width="48">+/null/emb2;Activate;128;A;;128;;;128;;;;1;false;0;0;pbs\/aider\/+1_next_attack.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14664;0</VASSAL.build.widget.PieceSlot>
+                </VASSAL.build.widget.PanelWidget>
+                <VASSAL.build.widget.PanelWidget entryName="Generic" fixed="true" nColumns="4" scale="1.0" vert="false">
+                    <VASSAL.build.widget.PieceSlot entryName="Motion Attempt" gpid="apb2:14404" height="64" width="73">+/null/label;76,130;Label;10;255,255,255;0,0,0;t;0;c;0;b;c;$pieceName$ ($label$);Dialog;0;0;TextLabel;;false	report;70\,130,82\,130;$location$: $newPieceName$ *;;;;false\	emb2;Activate;128;A;Flip;128;;;128;;;;1;false;0;0;pbs\/motion_attempt.png,pbs\/di_motion_attempt.png;+Motion Attempt,+DI or Motion Attempt;true;;;;false;;1;1;true;65,130;70,130;;;0.15;;true\\	piece;K;D;pbs_token.svg;Motion Attempt/	-1\	1\\	null;0;0;apb2:14404;3;ClickedX;0;ppScale;1.0;ClickedY;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="Next Action (Move)" gpid="apb2:14630" height="64" width="73">+/null/label;76,130;Label;10;255,255,255;0,0,0;t;0;c;0;b;c;$pieceName$ ($label$);Dialog;0;0;TextLabel;;false	report;70\,130,82\,130;$location$: $newPieceName$ *;;;;false\	emb2;Activate;128;A;Flip;128;;;128;;;;1;false;0;0;pbs\/next_action_move.png;+DI or Motion Attempt;true;;;;false;;1;1;true;65,130;70,130;;;0.15;;true\\	piece;K;D;pbs_token.svg;Next Action (Move)/	-1\	1\\	null;0;0;apb2:14630;3;ClickedX;0;ppScale;1.0;ClickedY;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="Next Action (Pivot)" gpid="apb2:14631" height="64" width="73">+/null/label;76,130;Label;10;255,255,255;0,0,0;t;0;c;0;b;c;$pieceName$ ($label$);Dialog;0;0;TextLabel;;false	report;70\,130,82\,130;$location$: $newPieceName$ *;;;;false\	emb2;Activate;128;A;Flip;128;;;128;;;;1;false;0;0;pbs\/next_action_pivot_left.png,pbs\/next_action_pivot_right.png;+DI or Motion Attempt,;true;;;;false;;1;1;true;65,130;70,130;;;0.15;;true\\	piece;K;D;pbs_token.svg;Next Action (Pivot)/	-1\	1\\	null;0;0;apb2:14631;3;ClickedX;0;ppScale;1.0;ClickedY;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="Next Action (VBM)" gpid="apb2:14632" height="64" width="73">+/null/label;76,130;Label;10;255,255,255;0,0,0;t;0;c;0;b;c;$pieceName$ ($label$);Dialog;0;0;TextLabel;;false	report;70\,130,82\,130;$location$: $newPieceName$ *;;;;false\	emb2;Activate;128;A;Flip;128;;;128;;;;1;false;0;0;pbs\/next_action_vbm_left.png,pbs\/next_action_vbm_right.png;+DI or Motion Attempt,;true;;;;false;;1;1;true;65,130;70,130;;;0.15;;true\\	piece;K;D;pbs_token.svg;Next Action (VBM)/	-1\	1\\	null;0;0;apb2:14632;3;ClickedX;0;ppScale;1.0;ClickedY;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="Mines" gpid="apb2:14633" height="64" width="73">+/null/label;76,130;Label;10;255,255,255;0,0,0;t;0;c;0;b;c;$pieceName$ ($label$);Dialog;0;0;TextLabel;;false	report;70\,130,82\,130;$location$: $newPieceName$ *;;;;false\	emb2;Activate;128;A;Flip;128;;;128;;;;1;false;0;0;pbs\/mines_up_grey.png,pbs\/mines_up_blue.png;+DI or Motion Attempt,;true;;;;false;;1;1;true;65,130;70,130;;;0.15;;true\\	piece;K;D;pbs_token.svg;Mines/	-1\	1\\	null;0;0;apb2:14633;3;ClickedX;0;ppScale;1.0;ClickedY;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="Road Mines" gpid="apb2:14634" height="64" width="73">+/null/label;76,130;Label;10;255,255,255;0,0,0;t;0;c;0;b;c;$pieceName$ ($label$);Dialog;0;0;TextLabel;;false	report;70\,130,82\,130;$location$: $newPieceName$ *;;;;false\	emb2;Activate;128;A;Flip;128;;;128;;;;1;false;0;0;pbs\/road_mines_grey.png,pbs\/road_mines_blue.png;+Road Mines Grey,Road Mines Blue;true;;;;false;;1;1;true;65,130;70,130;;;0.15;;true\\	piece;K;D;pbs_token.svg;Road Mines/	-1\	1\\	null;0;0;apb2:14634;3;ClickedX;0;ppScale;1.0;ClickedY;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="Volume Firelane" gpid="apb2:14629" height="64" width="73">+/null/label;76,130;Label;10;255,255,255;0,0,0;t;0;c;0;b;c;$pieceName$ ($label$);Dialog;0;0;TextLabel;;false	report;70\,130,82\,130;$location$: $newPieceName$ *;;;;false\	emb2;Activate;128;A;Flip;128;;;128;;;;1;false;0;0;pbs\/vol_fire_lane.png;+Volume Firelane;true;;;;false;;1;1;true;65,130;70,130;;;0.15;;true\\	piece;K;D;pbs_token.svg;Volume Firelane/	-1\	1\\	null;0;0;apb2:14629;3;ClickedX;0;ppScale;1.0;ClickedY;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="PBS Token" gpid="26d:14642" height="64" width="73">+/null/label;76,130;Label;10;255,255,255;0,0,0;t;0;c;0;b;c;$pieceName$ ($label$);Dialog;0;0;TextLabel;;false	report;70\,130,82\,130;$location$: $newPieceName$ *;;;;false\	piece;K;D;pbs_token.svg;PBS Token/	-1\	null;0;0;26d:14642;3;ClickedX;0;ppScale;1.0;ClickedY;0</VASSAL.build.widget.PieceSlot>
+                </VASSAL.build.widget.PanelWidget>
+                <VASSAL.build.widget.PanelWidget entryName="HIP Ambush (A–J)" fixed="true" nColumns="10" scale="1.0" vert="false">
+                    <VASSAL.build.widget.PieceSlot entryName="A" gpid="26d:14687" height="64" width="73">+/null/emb2;Activate;128;A;Incr;128;;Decr;128;;;;{1};false;0;0;pbs\/cloaking_display\/A_hip_ambush.png,pbs\/cloaking_display\/A_hip_surprise_long.png,pbs\/cloaking_display\/A_hip_surprise_short.png;,,;true;;;;false;;1;1;true;65,130;93,130;91,130;;0.15;;true	piece;;;;/1	null;0;0;26d:14687;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="B" gpid="26d:14688" height="64" width="73">+/null/emb2;Activate;128;A;Incr;128;;Decr;128;;;;{1};false;0;0;pbs\/cloaking_display\/B_hip_ambush.png,pbs\/cloaking_display\/B_hip_surprise_long.png,pbs\/cloaking_display\/B_hip_surprise_short.png;,,;true;;;;false;;1;1;true;65,130;93,130;91,130;;0.15;;true	piece;;;;/1	null;0;0;26d:14688;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="C" gpid="26d:14689" height="64" width="73">+/null/emb2;Activate;128;A;Incr;128;;Decr;128;;;;{1};false;0;0;pbs\/cloaking_display\/C_hip_ambush.png,pbs\/cloaking_display\/C_hip_surprise_long.png,pbs\/cloaking_display\/C_hip_surprise_short.png;,,;true;;;;false;;1;1;true;65,130;93,130;91,130;;0.15;;true	piece;;;;/1	null;0;0;26d:14689;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="D" gpid="26d:14690" height="64" width="73">+/null/emb2;Activate;128;A;Incr;128;;Decr;128;;;;{1};false;0;0;pbs\/cloaking_display\/D_hip_ambush.png,pbs\/cloaking_display\/D_hip_surprise_long.png,pbs\/cloaking_display\/D_hip_surprise_short.png;,,;true;;;;false;;1;1;true;65,130;93,130;91,130;;0.15;;true	piece;;;;/1	null;0;0;26d:14690;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="E" gpid="26d:14691" height="64" width="73">+/null/emb2;Activate;128;A;Incr;128;;Decr;128;;;;{1};false;0;0;pbs\/cloaking_display\/E_hip_ambush.png,pbs\/cloaking_display\/E_hip_surprise_long.png,pbs\/cloaking_display\/E_hip_surprise_short.png;,,;true;;;;false;;1;1;true;65,130;93,130;91,130;;0.15;;true	piece;;;;/1	null;0;0;26d:14691;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="F" gpid="26d:14692" height="64" width="73">+/null/emb2;Activate;128;A;Incr;128;;Decr;128;;;;{1};false;0;0;pbs\/cloaking_display\/F_hip_ambush.png,pbs\/cloaking_display\/F_hip_surprise_long.png,pbs\/cloaking_display\/F_hip_surprise_short.png;,,;true;;;;false;;1;1;true;65,130;93,130;91,130;;0.15;;true	piece;;;;/1	null;0;0;26d:14692;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="G" gpid="26d:14693" height="64" width="73">+/null/emb2;Activate;128;A;Incr;128;;Decr;128;;;;{1};false;0;0;pbs\/cloaking_display\/G_hip_ambush.png,pbs\/cloaking_display\/G_hip_surprise_long.png,pbs\/cloaking_display\/G_hip_surprise_short.png;,,;true;;;;false;;1;1;true;65,130;93,130;91,130;;0.15;;true	piece;;;;/1	null;0;0;26d:14693;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="H" gpid="26d:14694" height="64" width="73">+/null/emb2;Activate;128;A;Incr;128;;Decr;128;;;;{1};false;0;0;pbs\/cloaking_display\/H_hip_ambush.png,pbs\/cloaking_display\/H_hip_surprise_long.png,pbs\/cloaking_display\/H_hip_surprise_short.png;,,;true;;;;false;;1;1;true;65,130;93,130;91,130;;0.15;;true	piece;;;;/1	null;0;0;26d:14694;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="I" gpid="26d:14695" height="64" width="73">+/null/emb2;Activate;128;A;Incr;128;;Decr;128;;;;{1};false;0;0;pbs\/cloaking_display\/I_hip_ambush.png,pbs\/cloaking_display\/I_hip_surprise_long.png,pbs\/cloaking_display\/I_hip_surprise_short.png;,,;true;;;;false;;1;1;true;65,130;93,130;91,130;;0.15;;true	piece;;;;/1	null;0;0;26d:14695;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="J" gpid="26d:14696" height="64" width="73">+/null/emb2;Activate;128;A;Incr;128;;Decr;128;;;;{1};false;0;0;pbs\/cloaking_display\/J_hip_ambush.png,pbs\/cloaking_display\/J_hip_surprise_long.png,pbs\/cloaking_display\/J_hip_surprise_short.png;,,;true;;;;false;;1;1;true;65,130;93,130;91,130;;0.15;;true	piece;;;;/1	null;0;0;26d:14696;0</VASSAL.build.widget.PieceSlot>
+                </VASSAL.build.widget.PanelWidget>
+                <VASSAL.build.widget.PanelWidget entryName="HIP Surprise Control (K–T)" fixed="true" nColumns="10" scale="1.0" vert="false">
+                    <VASSAL.build.widget.PieceSlot entryName="K" gpid="26d:14697" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;{1};false;0;0;pbs\/cloaking_display\/K_hip_surprise_control.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14697;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="L" gpid="26d:14698" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;{1};false;0;0;pbs\/cloaking_display\/L_hip_surprise_control.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14698;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="M" gpid="26d:14699" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;{1};false;0;0;pbs\/cloaking_display\/M_hip_surprise_control.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14699;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="N" gpid="26d:14700" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;{1};false;0;0;pbs\/cloaking_display\/N_hip_surprise_control.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14700;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="O" gpid="26d:14701" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;{1};false;0;0;pbs\/cloaking_display\/O_hip_surprise_control.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14701;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="P" gpid="26d:14702" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;{1};false;0;0;pbs\/cloaking_display\/P_hip_surprise_control.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14702;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="Q" gpid="26d:14703" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;{1};false;0;0;pbs\/cloaking_display\/Q_hip_surprise_control.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14703;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="R" gpid="26d:14704" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;{1};false;0;0;pbs\/cloaking_display\/R_hip_surprise_control.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14704;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="S" gpid="26d:14705" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;{1};false;0;0;pbs\/cloaking_display\/S_hip_surprise_control.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14705;0</VASSAL.build.widget.PieceSlot>
+                    <VASSAL.build.widget.PieceSlot entryName="T" gpid="26d:14706" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;{1};false;0;0;pbs\/cloaking_display\/T_hip_surprise_control.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14706;0</VASSAL.build.widget.PieceSlot>
+                </VASSAL.build.widget.PanelWidget>
+            </VASSAL.build.widget.TabWidget>
+        </VASSAL.build.module.PieceWindow>
+    </VASSAL.build.module.ExtensionElement>
+    <VASSAL.build.module.ExtensionElement target="">
+        <VASSAL.build.module.ToolbarMenu canDisable="false" description="PBS" disabledIcon="" hideWhenDisabled="false" hotkey="" icon="asl_pbs.png" menuItems="PBS Counters,PBS Cloaking Display,PBS Aider,PBS Tracker Sheet" propertyGate="" text="" tooltip="Play Both Sides"/>
+    </VASSAL.build.module.ExtensionElement>
+    <VASSAL.build.module.ExtensionElement target="">
+        <VASSAL.build.module.Map allowMultiple="false" backgroundcolor="255,255,255" buttonName="PBS Tracker Sheet" changeFormat="$message$" color="0,0,0" createFormat="$pieceName$ created in $location$ *" description="" edgeHeight="0" edgeWidth="0" hideKey="" hotkey="" icon="/images/map.gif" launch="true" mapName="PBS Tracker Sheet" markMoved="Never" markUnmovedHotkey="" markUnmovedIcon="/images/unmoved.gif" markUnmovedReport="" markUnmovedText="" markUnmovedTooltip="Mark all pieces on this map as not moved" moveKey="" moveToFormat="$pieceName$ moves $previousLocation$ &amp;rarr; $location$ *" moveWithinFormat="$pieceName$ moves $previousLocation$ &amp;rarr; $location$ *" onlyReportChangedLocation="false" showKey="" thickness="3">
+            <VASSAL.build.module.map.BoardPicker addColumnText="Add column" addRowText="Add row" boardPrompt="Select board" slotHeight="125" slotScale="0.2" slotWidth="350" title="Choose Boards">
+                <VASSAL.build.module.map.boardPicker.Board image="tracker_sheet.png" name="PBS Tracker Sheet" reversible="false">
+                    <VASSAL.build.module.map.boardPicker.board.RegionGrid fontsize="9" snapto="false" visible="false">
+                        <VASSAL.build.module.map.boardPicker.board.Region name="VPAllied" originx="118" originy="14"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="VPAxis" originx="60" originy="14"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="NVR" originx="56" originy="198"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="PF" originx="58" originy="300"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="TH" originx="60" originy="402"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="AlliedSAN" originx="31" originy="550"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="AxisSAN" originx="30" originy="656"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="BatteryA" originx="21" originy="790"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="BatteryB" originx="226" originy="792"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="BatteryC" originx="439" originy="791"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="BatteryD" originx="645" originy="791"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="AlliedNoQuarter" originx="861" originy="792"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="AxisNoQuarter" originx="861" originy="869"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="Attacks" originx="800" originy="514"/>
+                    </VASSAL.build.module.map.boardPicker.board.RegionGrid>
+                </VASSAL.build.module.map.boardPicker.Board>
+            </VASSAL.build.module.map.BoardPicker>
+            <VASSAL.build.module.map.StackMetrics bottom="40,0" disabled="false" down="37,0" exSepX="6" exSepY="18" top="38,0" unexSepX="2" unexSepY="4" up="39,0"/>
+            <VASSAL.build.module.map.ForwardToKeyBuffer/>
+            <VASSAL.build.module.map.Scroller/>
+            <VASSAL.build.module.map.ForwardToChatter/>
+            <VASSAL.build.module.map.MenuDisplayer/>
+            <VASSAL.build.module.map.MapCenterer/>
+            <VASSAL.build.module.map.StackExpander/>
+            <VASSAL.build.module.map.PieceMover/>
+            <VASSAL.build.module.map.KeyBufferer/>
+            <VASSAL.build.module.map.ImageSaver buttonText="" canDisable="false" disabledIcon="" hideWhenDisabled="false" hotkey="" icon="/images/camera.gif" propertyGate="" tooltip="Save map as PNG image"/>
+            <VASSAL.build.module.map.CounterDetailViewer bgColor="" borderColor="0,0,0" borderInnerThickness="2" borderThickness="2" borderWidth="0" centerAll="false" centerPiecesVertically="false" centerText="false" combineCounterSummary="false" counterReportFormat="" delay="700" description="" display="from top-most layer only" emptyHexReportForma="$LocationName$" enableHTML="false" extraTextPadding="0" fgColor="0,0,0" fontSize="9" graphicsZoom="1.0" hotkey="32,130" layerList="" minDisplayPieces="2" onlyShowFirstSummary="false" propertyFilter="" showDeck="false" showDeckDepth="1" showDeckMasked="false" showMoveSelectde="false" showNoStack="false" showNonMovable="false" showOnlyTopOfStack="false" showOverlap="false" showTerrainBeneath="never" showTerrainHeight="150" showTerrainSnappy="true" showTerrainText="$LocationName$" showTerrainWidth="150" showTerrainZoom="1.0" showgraph="true" showgraphsingle="false" showtext="false" showtextsingle="false" stopAfterShowing="false" stretchWidthPieces="false" stretchWidthSummary="false" summaryReportFormat="$LocationName$" unrotatePieces="false" version="4" verticalBottomText="10" verticalOffset="0" verticalTopText="5" zoomlevel="1.0"/>
+            <VASSAL.build.module.map.Flare circleColor="255,0,0" circleScale="true" circleSize="100" flareKey="keyAlt" flareName="Map Flare" flarePulses="6" flarePulsesPerSec="3" reportFormat=""/>
+            <VASSAL.build.module.map.Zoomer inButtonText="" inIconName="/images/zoomIn.gif" inTooltip="Zoom in" outButtonText="" outIconName="/images/zoomOut.gif" outTooltip="Zoom out" pickButtonText="" pickIconName="/images/zoom.png" pickTooltip="Select Zoom" zoomInKey="" zoomLevels="0.2,0.25,0.333,0.4,0.5,0.555,0.625,0.75,1.0,1.25,1.6" zoomOutKey="" zoomPickKey="" zoomStart="3"/>
+            <VASSAL.build.module.properties.GlobalProperties/>
+            <VASSAL.build.module.map.SelectionHighlighters/>
+            <VASSAL.build.module.map.HighlightLastMoved color="255,0,0" enabled="true" thickness="2"/>
+            <VASSAL.build.module.map.SetupStack location="VPAxis" name="VPAxis" owningBoard="PBS Tracker Sheet" useGridLocation="true" x="100" y="100">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14639" height="64" width="73">+/null/piece;;;MS\/VPOaxis.svg;/null;0;0;26d:14639;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack location="VPAllied" name="VPAllies" owningBoard="PBS Tracker Sheet" useGridLocation="true" x="100" y="100">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14638" height="64" width="73">+/null/piece;;;MS\/VPOally.svg;/null;0;0;26d:14638;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack location="NVR" name="NVR" owningBoard="PBS Tracker Sheet" useGridLocation="true" x="100" y="100">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14641" height="64" width="73">+/null/piece;;;pbs\/tracker_sheet\/pedina_pbs.svg;/null;0;0;26d:14641;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack location="TH" name="TH" owningBoard="PBS Tracker Sheet" useGridLocation="true" x="100" y="100">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14645" height="64" width="73">+/null/piece;;;pbs\/tracker_sheet\/pedina_pbs.svg;/null;0;0;26d:14645;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack location="AlliedSAN" name="AlliedSAN" owningBoard="PBS Tracker Sheet" useGridLocation="true" x="100" y="100">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14646" height="64" width="73">+/null/piece;;;pbs\/tracker_sheet\/pedina_pbs.svg;/null;0;0;26d:14646;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack location="AlliedNoQuarter" name="AlliedNoQuarter" owningBoard="PBS Tracker Sheet" useGridLocation="true" x="100" y="100">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14647" height="64" width="73">+/null/piece;;;pbs\/tracker_sheet\/pedina_pbs.svg;/null;0;0;26d:14647;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack location="AxisNoQuarter" name="AxisNoQuarter" owningBoard="PBS Tracker Sheet" useGridLocation="true" x="100" y="100">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14648" height="64" width="73">+/null/piece;;;pbs\/tracker_sheet\/pedina_pbs.svg;/null;0;0;26d:14648;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack location="BatteryA" name="BatteryA" owningBoard="PBS Tracker Sheet" useGridLocation="true" x="100" y="100">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14649" height="64" width="73">+/null/piece;;;pbs\/tracker_sheet\/pedina_pbs.svg;/null;0;0;26d:14649;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack location="BatteryB" name="BatteryB" owningBoard="PBS Tracker Sheet" useGridLocation="true" x="100" y="100">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14650" height="64" width="73">+/null/piece;;;pbs\/tracker_sheet\/pedina_pbs.svg;/null;0;0;26d:14650;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack location="BatteryC" name="BatteryC" owningBoard="PBS Tracker Sheet" useGridLocation="true" x="100" y="100">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14651" height="64" width="73">+/null/piece;;;pbs\/tracker_sheet\/pedina_pbs.svg;/null;0;0;26d:14651;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack location="BatteryD" name="BatteryD" owningBoard="PBS Tracker Sheet" useGridLocation="true" x="100" y="100">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14652" height="64" width="73">+/null/piece;;;pbs\/tracker_sheet\/pedina_pbs.svg;/null;0;0;26d:14652;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack location="AxisSAN" name="AxisSAN" owningBoard="PBS Tracker Sheet" useGridLocation="true" x="100" y="100">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14653" height="64" width="73">+/null/piece;;;pbs\/tracker_sheet\/pedina_pbs.svg;/null;0;0;26d:14653;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack location="PF" name="PF" owningBoard="PBS Tracker Sheet" useGridLocation="true" x="100" y="100">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14644" height="64" width="73">+/null/piece;;;pbs\/tracker_sheet\/pedina_pbs.svg;/null;0;0;26d:14644;0</VASSAL.build.widget.PieceSlot>
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14643" height="64" width="73">+/null/piece;;;pbs\/tracker_sheet\/pedina_pbs.svg;/null;0;0;26d:14643;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack location="Attacks" name="Attacks" owningBoard="PBS Tracker Sheet" useGridLocation="true" x="100" y="100">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14654" height="64" width="73">+/null/piece;;;pbs\/tracker_sheet\/pedina_pbs.svg;/null;0;0;26d:14654;0</VASSAL.build.widget.PieceSlot>
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14655" height="64" width="73">+/null/piece;;;pbs\/tracker_sheet\/pedina_pbs.svg;/null;0;0;26d:14655;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+        </VASSAL.build.module.Map>
+    </VASSAL.build.module.ExtensionElement>
+    <VASSAL.build.module.ExtensionElement target="">
+        <VASSAL.build.module.Map allowMultiple="false" backgroundcolor="255,255,255" buttonName="PBS Aider" changeFormat="$message$" color="0,0,0" createFormat="$pieceName$ created in $location$ *" description="" edgeHeight="0" edgeWidth="0" hideKey="" hotkey="" icon="/images/map.gif" launch="true" mapName="PBS Aider" markMoved="Never" markUnmovedHotkey="" markUnmovedIcon="/images/unmoved.gif" markUnmovedReport="" markUnmovedText="" markUnmovedTooltip="Mark all pieces on this map as not moved" moveKey="" moveToFormat="$pieceName$ moves $previousLocation$ &amp;rarr; $location$ *" moveWithinFormat="$pieceName$ moves $previousLocation$ &amp;rarr; $location$ *" onlyReportChangedLocation="false" showKey="" thickness="3">
+            <VASSAL.build.module.map.BoardPicker addColumnText="Add column" addRowText="Add row" boardPrompt="Select board" slotHeight="125" slotScale="0.2" slotWidth="350" title="Choose Boards">
+                <setup>PBS AiderBoardPicker	Aider	0	0</setup>
+                <VASSAL.build.module.map.boardPicker.Board image="aider.png" name="Aider" reversible="false">
+                    <VASSAL.build.module.map.boardPicker.board.RegionGrid fontsize="9" snapto="false" visible="false">
+                        <VASSAL.build.module.map.boardPicker.board.Region name="THDRM" originx="488" originy="173"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="MP" originx="52" originy="488"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="Range" originx="1117" originy="293"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="Range" originx="1117" originy="293"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="Attacks" originx="34" originy="294"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="TH" originx="442" originy="134"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="MP102030" originx="1182" originy="492"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="OFTC" originx="1409" originy="43"/>
+                    </VASSAL.build.module.map.boardPicker.board.RegionGrid>
+                </VASSAL.build.module.map.boardPicker.Board>
+            </VASSAL.build.module.map.BoardPicker>
+            <VASSAL.build.module.map.StackMetrics bottom="40,0" disabled="false" down="37,0" exSepX="6" exSepY="18" top="38,0" unexSepX="2" unexSepY="4" up="39,0"/>
+            <VASSAL.build.module.map.ForwardToKeyBuffer/>
+            <VASSAL.build.module.map.Scroller/>
+            <VASSAL.build.module.map.ForwardToChatter/>
+            <VASSAL.build.module.map.MenuDisplayer/>
+            <VASSAL.build.module.map.MapCenterer/>
+            <VASSAL.build.module.map.StackExpander/>
+            <VASSAL.build.module.map.PieceMover/>
+            <VASSAL.build.module.map.KeyBufferer/>
+            <VASSAL.build.module.map.ImageSaver buttonText="" canDisable="false" disabledIcon="" hideWhenDisabled="false" hotkey="" icon="/images/camera.gif" propertyGate="" tooltip="Save map as PNG image"/>
+            <VASSAL.build.module.map.CounterDetailViewer bgColor="" borderColor="0,0,0" borderInnerThickness="2" borderThickness="2" borderWidth="0" centerAll="false" centerPiecesVertically="false" centerText="false" combineCounterSummary="false" counterReportFormat="" delay="700" description="" display="from top-most layer only" emptyHexReportForma="$LocationName$" enableHTML="false" extraTextPadding="0" fgColor="0,0,0" fontSize="9" graphicsZoom="1.0" hotkey="32,130" layerList="" minDisplayPieces="2" onlyShowFirstSummary="false" propertyFilter="" showDeck="false" showDeckDepth="1" showDeckMasked="false" showMoveSelectde="false" showNoStack="false" showNonMovable="false" showOnlyTopOfStack="false" showOverlap="false" showTerrainBeneath="never" showTerrainHeight="150" showTerrainSnappy="true" showTerrainText="$LocationName$" showTerrainWidth="150" showTerrainZoom="1.0" showgraph="true" showgraphsingle="false" showtext="false" showtextsingle="false" stopAfterShowing="false" stretchWidthPieces="false" stretchWidthSummary="false" summaryReportFormat="$LocationName$" unrotatePieces="false" version="4" verticalBottomText="10" verticalOffset="0" verticalTopText="5" zoomlevel="1.0"/>
+            <VASSAL.build.module.map.Flare circleColor="255,0,0" circleScale="true" circleSize="100" flareKey="keyAlt" flareName="Map Flare" flarePulses="6" flarePulsesPerSec="3" reportFormat=""/>
+            <VASSAL.build.module.map.Zoomer inButtonText="" inIconName="/images/zoomIn.gif" inTooltip="Zoom in" outButtonText="" outIconName="/images/zoomOut.gif" outTooltip="Zoom out" pickButtonText="" pickIconName="/images/zoom.png" pickTooltip="Select Zoom" zoomInKey="" zoomLevels="0.2,0.25,0.333,0.4,0.5,0.555,0.625,0.75,1.0,1.25,1.6" zoomOutKey="" zoomPickKey="" zoomStart="3"/>
+            <VASSAL.build.module.properties.GlobalProperties/>
+            <VASSAL.build.module.map.SelectionHighlighters/>
+            <VASSAL.build.module.map.HighlightLastMoved color="255,0,0" enabled="true" thickness="2"/>
+            <VASSAL.build.module.map.SetupStack location="OFTC" name="OFTC" owningBoard="Aider" useGridLocation="true" x="100" y="100">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14708" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;1;false;0;0;pbs\/aider\/OFTC_DRM.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14708;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack location="Attacks" name="Attacks" owningBoard="Aider" useGridLocation="true" x="100" y="100">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14709" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;1;false;0;0;pbs\/aider\/+1_next_attack.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14709;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack location="MP" name="MP" owningBoard="Aider" useGridLocation="true" x="100" y="100">
+                <VASSAL.build.widget.PieceSlot entryName=": MP" gpid="26d:14710" height="64" width="73">+/null/emb2;Activate;128;A;Cycle;128;;;128;;;;1;false;0;0;pbs\/aider\/MP.png,pbs\/aider\/MP+10.png,pbs\/aider\/MP+20.png,pbs\/aider\/MP+30.png;+: MP,+: \+10 MP,+: \+20 MP,+: \+30 MP;true;;;;false;;1;1;true;65,130;70,130;;;0.15;;true	piece;;;;/1	null;0;0;26d:14710;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack location="Range" name="Range" owningBoard="Aider" useGridLocation="true" x="100" y="100">
+                <VASSAL.build.widget.PieceSlot entryName=": S Range" gpid="26d:14711" height="64" width="73">+/null/emb2;Activate;128;A;Flip;128;;;128;;;;1;false;0;0;pbs\/aider\/S_range_suppression.png,pbs\/aider\/L_range_interdiction.png;+: S Range,+: L Range;true;;;;false;;1;1;true;65,130;70,130;;;0.15;;true	piece;;;;/1	null;0;0;26d:14711;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack location="MP102030" name="MP102030" owningBoard="Aider" useGridLocation="true" x="100" y="100">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14712" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;;false;0;0;pbs\/aider\/MP+30.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14712;0</VASSAL.build.widget.PieceSlot>
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14713" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;;false;0;0;pbs\/aider\/MP+20.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14713;0</VASSAL.build.widget.PieceSlot>
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14714" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;;false;0;0;pbs\/aider\/MP+10.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14714;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack location="TH" name="TH" owningBoard="Aider" useGridLocation="true" x="100" y="100">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14715" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;1;false;0;0;pbs\/aider\/TH.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14715;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack location="THDRM" name="THDRM" owningBoard="Aider" useGridLocation="true" x="100" y="100">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14716" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;1;false;0;0;pbs\/aider\/TH_DRM.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14716;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+        </VASSAL.build.module.Map>
+    </VASSAL.build.module.ExtensionElement>
+    <VASSAL.build.module.ExtensionElement target="">
+        <VASSAL.build.module.Map allowMultiple="false" backgroundcolor="255,255,255" buttonName="PBS Cloaking Display" changeFormat="$message$" color="0,0,0" createFormat="$pieceName$ created in $location$ *" description="" edgeHeight="0" edgeWidth="0" hideKey="" hotkey="" icon="/images/map.gif" launch="true" mapName="PBS Cloaking Display" markMoved="Never" markUnmovedHotkey="" markUnmovedIcon="/images/unmoved.gif" markUnmovedReport="" markUnmovedText="" markUnmovedTooltip="Mark all pieces on this map as not moved" moveKey="" moveToFormat="$pieceName$ moves $previousLocation$ &amp;rarr; $location$ *" moveWithinFormat="$pieceName$ moves $previousLocation$ &amp;rarr; $location$ *" onlyReportChangedLocation="false" showKey="" thickness="3">
+            <VASSAL.build.module.map.BoardPicker addColumnText="Add column" addRowText="Add row" boardPrompt="Select board" slotHeight="125" slotScale="0.2" slotWidth="350" title="Choose Boards">
+                <setup>PBS Cloaking DisplayBoardPicker	PBS Cloaking Display	0	0</setup>
+                <VASSAL.build.module.map.boardPicker.Board image="cloaking_display.png" name="PBS Cloaking Display" reversible="false">
+                    <VASSAL.build.module.map.boardPicker.board.SquareGrid color="0,0,0" cornersLegal="false" dotsVisible="true" dx="156.99999999999943" dy="233.69999999999877" edgesLegal="false" range="Metric" snapTo="true" visible="false" x0="101" y0="123"/>
+                </VASSAL.build.module.map.boardPicker.Board>
+            </VASSAL.build.module.map.BoardPicker>
+            <VASSAL.build.module.map.StackMetrics bottom="40,0" disabled="false" down="37,0" exSepX="6" exSepY="18" top="38,0" unexSepX="2" unexSepY="4" up="39,0"/>
+            <VASSAL.build.module.map.ForwardToKeyBuffer/>
+            <VASSAL.build.module.map.Scroller/>
+            <VASSAL.build.module.map.ForwardToChatter/>
+            <VASSAL.build.module.map.MenuDisplayer/>
+            <VASSAL.build.module.map.MapCenterer/>
+            <VASSAL.build.module.map.StackExpander/>
+            <VASSAL.build.module.map.PieceMover/>
+            <VASSAL.build.module.map.KeyBufferer/>
+            <VASSAL.build.module.map.ImageSaver buttonText="" canDisable="false" hideWhenDisabled="false" hotkey="" icon="/images/camera.gif" propertyGate="" tooltip="Save map as PNG image"/>
+            <VASSAL.build.module.map.CounterDetailViewer bgColor="" borderColor="0,0,0" borderInnerThickness="2" borderThickness="2" borderWidth="0" centerAll="false" centerPiecesVertically="false" centerText="false" combineCounterSummary="false" counterReportFormat="" delay="700" description="" display="from top-most layer only" emptyHexReportForma="$LocationName$" enableHTML="false" extraTextPadding="0" fgColor="0,0,0" fontSize="9" graphicsZoom="1.0" hotkey="32,130" layerList="" minDisplayPieces="2" onlyShowFirstSummary="false" propertyFilter="" showDeck="false" showDeckDepth="1" showDeckMasked="false" showMoveSelectde="false" showNoStack="false" showNonMovable="false" showOnlyTopOfStack="false" showOverlap="false" showTerrainBeneath="never" showTerrainHeight="150" showTerrainSnappy="true" showTerrainText="$LocationName$" showTerrainWidth="150" showTerrainZoom="1.0" showgraph="true" showgraphsingle="false" showtext="false" showtextsingle="false" stopAfterShowing="false" stretchWidthPieces="false" stretchWidthSummary="false" summaryReportFormat="$LocationName$" unrotatePieces="false" version="4" verticalBottomText="10" verticalOffset="0" verticalTopText="5" zoomlevel="1.0"/>
+            <VASSAL.build.module.map.Flare circleColor="255,0,0" circleScale="true" circleSize="100" flareKey="keyAlt" flareName="Map Flare" flarePulses="6" flarePulsesPerSec="3" reportFormat=""/>
+            <VASSAL.build.module.map.Zoomer inButtonText="" inIconName="/images/zoomIn.gif" inTooltip="Zoom in" outButtonText="" outIconName="/images/zoomOut.gif" outTooltip="Zoom out" pickButtonText="" pickIconName="/images/zoom.png" pickTooltip="Select Zoom" zoomInKey="" zoomLevels="0.2,0.25,0.333,0.4,0.5,0.555,0.625,0.75,1.0,1.25,1.6" zoomOutKey="" zoomPickKey="" zoomStart="3"/>
+            <VASSAL.build.module.properties.GlobalProperties/>
+            <VASSAL.build.module.map.SelectionHighlighters/>
+            <VASSAL.build.module.map.HighlightLastMoved color="255,0,0" enabled="true" thickness="2"/>
+            <VASSAL.build.module.map.SetupStack name="A" owningBoard="PBS Cloaking Display" useGridLocation="false" x="101" y="123">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14667" height="64" width="73">+/null/emb2;Activate;128;A;Incr;128;;Decr;128;;;;{1};false;0;0;pbs\/cloaking_display\/A_hip_ambush.png,pbs\/cloaking_display\/A_hip_surprise_long.png,pbs\/cloaking_display\/A_hip_surprise_short.png;,,;true;;;;false;;1;1;true;65,130;93,130;91,130;;0.15;;true	piece;;;;/1	null;0;0;26d:14667;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack name="B" owningBoard="PBS Cloaking Display" useGridLocation="false" x="258" y="123">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14668" height="64" width="73">+/null/emb2;Activate;128;A;Incr;128;;Decr;128;;;;{1};false;0;0;pbs\/cloaking_display\/B_hip_ambush.png,pbs\/cloaking_display\/B_hip_surprise_long.png,pbs\/cloaking_display\/B_hip_surprise_short.png;,,;true;;;;false;;1;1;true;65,130;93,130;91,130;;0.15;;true	piece;;;;/1	null;0;0;26d:14668;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack name="C" owningBoard="PBS Cloaking Display" useGridLocation="false" x="415" y="123">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14669" height="64" width="73">+/null/emb2;Activate;128;A;Incr;128;;Decr;128;;;;{1};false;0;0;pbs\/cloaking_display\/C_hip_ambush.png,pbs\/cloaking_display\/C_hip_surprise_long.png,pbs\/cloaking_display\/C_hip_surprise_short.png;,,;true;;;;false;;1;1;true;65,130;93,130;91,130;;0.15;;true	piece;;;;/1	null;0;0;26d:14669;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack name="D" owningBoard="PBS Cloaking Display" useGridLocation="false" x="572" y="123">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14670" height="64" width="73">+/null/emb2;Activate;128;A;Incr;128;;Decr;128;;;;{1};false;0;0;pbs\/cloaking_display\/D_hip_ambush.png,pbs\/cloaking_display\/D_hip_surprise_long.png,pbs\/cloaking_display\/D_hip_surprise_short.png;,,;true;;;;false;;1;1;true;65,130;93,130;91,130;;0.15;;true	piece;;;;/1	null;0;0;26d:14670;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack name="E" owningBoard="PBS Cloaking Display" useGridLocation="false" x="729" y="123">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14671" height="64" width="73">+/null/emb2;Activate;128;A;Incr;128;;Decr;128;;;;{1};false;0;0;pbs\/cloaking_display\/E_hip_ambush.png,pbs\/cloaking_display\/E_hip_surprise_long.png,pbs\/cloaking_display\/E_hip_surprise_short.png;,,;true;;;;false;;1;1;true;65,130;93,130;91,130;;0.15;;true	piece;;;;/1	null;0;0;26d:14671;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack name="F" owningBoard="PBS Cloaking Display" useGridLocation="false" x="886" y="123">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14672" height="64" width="73">+/null/emb2;Activate;128;A;Incr;128;;Decr;128;;;;{1};false;0;0;pbs\/cloaking_display\/F_hip_ambush.png,pbs\/cloaking_display\/F_hip_surprise_long.png,pbs\/cloaking_display\/F_hip_surprise_short.png;,,;true;;;;false;;1;1;true;65,130;93,130;91,130;;0.15;;true	piece;;;;/1	null;0;0;26d:14672;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack name="G" owningBoard="PBS Cloaking Display" useGridLocation="false" x="1043" y="123">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14673" height="64" width="73">+/null/emb2;Activate;128;A;Incr;128;;Decr;128;;;;{1};false;0;0;pbs\/cloaking_display\/G_hip_ambush.png,pbs\/cloaking_display\/G_hip_surprise_long.png,pbs\/cloaking_display\/G_hip_surprise_short.png;,,;true;;;;false;;1;1;true;65,130;93,130;91,130;;0.15;;true	piece;;;;/1	null;0;0;26d:14673;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack name="H" owningBoard="PBS Cloaking Display" useGridLocation="false" x="1200" y="123">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14674" height="64" width="73">+/null/emb2;Activate;128;A;Incr;128;;Decr;128;;;;{1};false;0;0;pbs\/cloaking_display\/H_hip_ambush.png,pbs\/cloaking_display\/H_hip_surprise_long.png,pbs\/cloaking_display\/H_hip_surprise_short.png;,,;true;;;;false;;1;1;true;65,130;93,130;91,130;;0.15;;true	piece;;;;/1	null;0;0;26d:14674;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack name="I" owningBoard="PBS Cloaking Display" useGridLocation="false" x="1357" y="123">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14675" height="64" width="73">+/null/emb2;Activate;128;A;Incr;128;;Decr;128;;;;{1};false;0;0;pbs\/cloaking_display\/I_hip_ambush.png,pbs\/cloaking_display\/I_hip_surprise_long.png,pbs\/cloaking_display\/I_hip_surprise_short.png;,,;true;;;;false;;1;1;true;65,130;93,130;91,130;;0.15;;true	piece;;;;/1	null;0;0;26d:14675;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack name="J" owningBoard="PBS Cloaking Display" useGridLocation="false" x="1514" y="123">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14676" height="64" width="73">+/null/emb2;Activate;128;A;Incr;128;;Decr;128;;;;{1};false;0;0;pbs\/cloaking_display\/J_hip_ambush.png,pbs\/cloaking_display\/J_hip_surprise_long.png,pbs\/cloaking_display\/J_hip_surprise_short.png;,,;true;;;;false;;1;1;true;65,130;93,130;91,130;;0.15;;true	piece;;;;/1	null;0;0;26d:14676;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack name="K" owningBoard="PBS Cloaking Display" useGridLocation="false" x="101" y="357">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14677" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;{1};false;0;0;pbs\/cloaking_display\/K_hip_surprise_control.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14677;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack name="L" owningBoard="PBS Cloaking Display" useGridLocation="false" x="258" y="357">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14678" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;{1};false;0;0;pbs\/cloaking_display\/L_hip_surprise_control.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14678;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack name="M" owningBoard="PBS Cloaking Display" useGridLocation="false" x="415" y="357">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14679" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;{1};false;0;0;pbs\/cloaking_display\/M_hip_surprise_control.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14679;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack name="N" owningBoard="PBS Cloaking Display" useGridLocation="false" x="572" y="357">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14680" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;{1};false;0;0;pbs\/cloaking_display\/N_hip_surprise_control.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14680;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack name="O" owningBoard="PBS Cloaking Display" useGridLocation="false" x="729" y="357">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14681" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;{1};false;0;0;pbs\/cloaking_display\/O_hip_surprise_control.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14681;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack name="P" owningBoard="PBS Cloaking Display" useGridLocation="false" x="886" y="357">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14682" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;{1};false;0;0;pbs\/cloaking_display\/P_hip_surprise_control.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14682;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack name="Q" owningBoard="PBS Cloaking Display" useGridLocation="false" x="1043" y="357">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14683" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;{1};false;0;0;pbs\/cloaking_display\/Q_hip_surprise_control.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14683;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack name="R" owningBoard="PBS Cloaking Display" useGridLocation="false" x="1200" y="357">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14684" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;{1};false;0;0;pbs\/cloaking_display\/R_hip_surprise_control.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14684;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack name="S" owningBoard="PBS Cloaking Display" useGridLocation="false" x="1357" y="357">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14685" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;{1};false;0;0;pbs\/cloaking_display\/S_hip_surprise_control.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14685;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+            <VASSAL.build.module.map.SetupStack name="T" owningBoard="PBS Cloaking Display" useGridLocation="false" x="1514" y="357">
+                <VASSAL.build.widget.PieceSlot entryName="" gpid="26d:14686" height="64" width="73">+/null/emb2;Activate;128;A;;128;;;128;;;;{1};false;0;0;pbs\/cloaking_display\/T_hip_surprise_control.png;;true;;;;false;;1;1;true;65,130;;;;0.15;;true	piece;;;;/1	null;0;0;26d:14686;0</VASSAL.build.widget.PieceSlot>
+            </VASSAL.build.module.map.SetupStack>
+        </VASSAL.build.module.Map>
+    </VASSAL.build.module.ExtensionElement>
+    <VASSAL.build.module.ExtensionElement target="">
+        <VASSAL.build.module.DiceButton addToTotal="0" canDisable="false" disabledIcon="" hideWhenDisabled="false" hotkey="" icon="" keepCount="1" keepDice="false" keepOption="&gt;" lockAdd="false" lockDice="false" lockPlus="false" lockSides="false" nDice="1" nSides="10" name="1d10" plus="0" prompt="false" propertyGate="" reportFormat="** $name$ = $result$ *** &amp;lt;$PlayerName$&amp;gt;" reportTotal="false" sortDice="false" text="1d10" tooltip="1d10"/>
+    </VASSAL.build.module.ExtensionElement>
+    <VASSAL.build.module.ExtensionElement target="">
+        <VASL.build.module.ASLPBSChecker Name="ASLPBSChecker"/>
+    </VASSAL.build.module.ExtensionElement>
+</VASSAL.build.module.ModuleExtension>
