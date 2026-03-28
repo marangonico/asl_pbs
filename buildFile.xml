@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <VASSAL.build.module.ModuleExtension anyModule="false" description="ASL PBS (Play Both Sides)" extensionId="26d" module="VASL" moduleVersion="6.7.2-beta4" nextPieceSlotId="14717" vassalVersion="3.7.20" version="0.99a">
+    <VASSAL.build.module.ExtensionElement target="VASL.build.module.ASLMap">
+        <VASL.build.module.ASLPBSChecker CheckActivationsKey="83,650" ClearFlaresKey="88,650" Name="ASLPBSChecker"/>
+    </VASSAL.build.module.ExtensionElement>
     <VASSAL.build.module.ExtensionElement target="">
         <VASSAL.build.module.PieceWindow defaultWidth="0" hidden="false" hotkey="" icon="" name="PBS Counters" scale="1.0" text="PBS Counters" tooltip="Show/Hide the null window">
             <VASSAL.build.widget.TabWidget entryName="All PBS Counters">
