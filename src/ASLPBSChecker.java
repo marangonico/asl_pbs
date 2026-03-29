@@ -21,11 +21,13 @@ import VASSAL.configure.NamedHotKeyConfigurer;
 import VASSAL.counters.BasicPiece;
 import VASSAL.counters.Decorator;
 import VASSAL.counters.GamePiece;
+import VASSAL.counters.Labeler;
 import VASSAL.counters.PieceIterator;
 import VASSAL.counters.Properties;
 import VASSAL.counters.Stack;
 import VASSAL.tools.NamedKeyStroke;
 
+import javax.swing.JButton;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -49,6 +51,7 @@ public class ASLPBSChecker extends AbstractConfigurable
     ArrayList<GamePiece> movingFactionB = new ArrayList<>();
 
     final ArrayList<GamePiece> pieceList = new ArrayList<>();
+    private final java.util.Map<String, String> originalLabels = new java.util.HashMap<>();
 
     private String factionANat1 = "";  // da regione NatA1 su PBS Sides
     private String factionANat2 = "";  // da regione NatA2 su PBS Sides
@@ -69,26 +72,27 @@ public class ASLPBSChecker extends AbstractConfigurable
     // -------------------------------------------------------------------------
     // Nationalities / activation ranges  (identical to SASLActivationChecker)
     // -------------------------------------------------------------------------
+    // Codici nazionalità VASL (proprietà "Nation" su Concealable)
     private static final String[] nationalities = {
-        "None",
-        "Allied Minors",
-        "Axis Minors",
-        "China",
-        "Finland",
-        "France",
-        "Germany",
-        "Great Britain",
-        "Italy",
-        "Japan",
-        "Partisan",
-        "Russia",
-        "US/USMC 44+",
-        "USMC 41-43",
-        "BCFK",
-        "CPVA",
-        "KPA",
-        "OUNC",
-        "South Korea",
+        "",     // 0 - nessuna/sconosciuta
+        "al",   // 1 - Allied Minors
+        "ax",   // 2 - Axis Minors
+        "ch",   // 3 - China
+        "fi",   // 4 - Finland
+        "fr",   // 5 - France / Vichy (vedi getActivationRangesIndex)
+        "ge",   // 6 - Germany
+        "br",   // 7 - Great Britain
+        "it",   // 8 - Italy
+        "ja",   // 9 - Japan
+        "pa",   // 10 - Partisan
+        "ru",   // 11 - Russia
+        "am",   // 12 - US / USMC 44+
+        "us",   // 13 - USMC 41-43
+        "bc",   // 14 - BCFK
+        "cc",   // 15 - CPVA
+        "nk",   // 16 - KPA (North Korea)
+        "un",   // 17 - OUNC
+        "sk",   // 18 - South Korea
     };
 
     private static final int[][] activationRangesInfantry = {
@@ -172,6 +176,11 @@ public class ASLPBSChecker extends AbstractConfigurable
         }
         getGameModule().getGameState().addGameComponent(this);
         getGameModule().addCommandEncoder(this);
+
+        JButton resetButton = new JButton("PBS Reset");
+        resetButton.setToolTipText("Rimuove i marker *ACTIVATE?* dalle pedine");
+        resetButton.addActionListener(e -> pieceListClear());
+        getGameModule().getToolBar().add(resetButton);
 
         Command c = new NullCommand();
         c.append(new VASSAL.build.module.Chatter.DisplayText(
@@ -266,18 +275,26 @@ public class ASLPBSChecker extends AbstractConfigurable
             if (piece instanceof Stack) {
                 for (PieceIterator pi = new PieceIterator(((Stack) piece).getPiecesIterator()); pi.hasMoreElements(); ) {
                     GamePiece currentPiece = pi.nextPiece();
+                    debugCanActivate(currentPiece);
                     if (canActivate(currentPiece)) {
                         clear = clearMovingCounters(clear);
                         if (isFactionA(currentPiece)) movingFactionA.add(currentPiece);
                         else                          movingFactionB.add(currentPiece);
                     }
                 }
-            } else if (canActivate(piece)) {
-                clear = clearMovingCounters(clear);
-                if (isFactionA(piece)) movingFactionA.add(piece);
-                else                   movingFactionB.add(piece);
+            } else {
+                debugCanActivate(piece);
+                if (canActivate(piece)) {
+                    clear = clearMovingCounters(clear);
+                    if (isFactionA(piece)) movingFactionA.add(piece);
+                    else                   movingFactionB.add(piece);
+                }
             }
         }
+        getGameModule().getChatter().send(
+            "*** PBS updateView: movingA=" + movingFactionA.size()
+            + " movingB=" + movingFactionB.size()
+        );
 
         generateFlareList();
     }
@@ -308,7 +325,13 @@ public class ASLPBSChecker extends AbstractConfigurable
             for (GamePiece mover : movingFactionA) {
                 if (mover == piece) continue;
                 CounterType ct = getCounterType(mover);
-                if ((range = losRange(mover, piece, ct)) >= 0) {
+                range = losRange(mover, piece, ct);
+                getGameModule().getChatter().send(
+                    "*** LOS A→B: mover='" + Decorator.getInnermost(mover).getName()
+                    + "' target='" + Decorator.getInnermost(piece).getName()
+                    + "' range=" + range
+                );
+                if (range >= 0) {
                     setPieceSpotted(mover, piece, range, ct);
                 }
             }
@@ -319,7 +342,13 @@ public class ASLPBSChecker extends AbstractConfigurable
             for (GamePiece mover : movingFactionB) {
                 if (mover == piece) continue;
                 CounterType ct = getCounterType(mover);
-                if ((range = losRange(mover, piece, ct)) >= 0) {
+                range = losRange(mover, piece, ct);
+                getGameModule().getChatter().send(
+                    "*** LOS B→A: mover='" + Decorator.getInnermost(mover).getName()
+                    + "' target='" + Decorator.getInnermost(piece).getName()
+                    + "' range=" + range
+                );
+                if (range >= 0) {
                     setPieceSpotted(mover, piece, range, ct);
                 }
             }
@@ -365,24 +394,51 @@ public class ASLPBSChecker extends AbstractConfigurable
 
     // viewed = il mover che ha rivelato il viewer; viewer = la pedina che viene segnalata
     private void setPieceSpotted(GamePiece viewed, GamePiece viewer, int range, CounterType counterType) {
-        if (!Decorator.getInnermost(viewer).getName().isEmpty()) {
-            if (viewer instanceof Decorator || viewer instanceof BasicPiece) {
-                if (!pieceList.contains(viewer)) {
-                    pieceList.add(viewer);
-                    int rangeBracket;
-                    switch (counterType) {
-                        case VEHICLE:
-                        case TRACKED_VEHICLE:
-                            rangeBracket = getVehicleRangeBracket(viewed, viewer, range);
-                            break;
-                        default:
-                            rangeBracket = activationRangesInfantry[getActivationRangesIndex(getNationality(viewer))][range];
-                            break;
-                    }
-                    if (rangeBracket != 0) {
-                        viewer.setProperty("ActivationFlag", 2);
-                        viewer.setProperty("RangeBracket", rangeBracket);
-                    }
+        String viewerName = Decorator.getInnermost(viewer).getName();
+        boolean nameOk    = !viewerName.isEmpty();
+        boolean typeOk    = viewer instanceof Decorator || viewer instanceof BasicPiece;
+        boolean notInList = !pieceList.contains(viewer);
+        getGameModule().getChatter().send(
+            "*** setPieceSpotted: '" + viewerName + "'"
+            + " nameOk=" + nameOk
+            + " typeOk=" + typeOk
+            + " notInList=" + notInList
+        );
+        if (nameOk && typeOk && notInList) {
+            pieceList.add(viewer);
+            int rangeBracket;
+            switch (counterType) {
+                case VEHICLE:
+                case TRACKED_VEHICLE:
+                    rangeBracket = getVehicleRangeBracket(viewed, viewer, range);
+                    break;
+                default:
+                    rangeBracket = activationRangesInfantry[getActivationRangesIndex(getNationality(viewer))][range];
+                    break;
+            }
+            getGameModule().getChatter().send(
+                "***   rangeBracket=" + rangeBracket
+                + " nat='" + getNationality(viewer) + "'"
+                + " natIdx=" + getActivationRangesIndex(getNationality(viewer))
+                + " range=" + range
+            );
+            if (rangeBracket != 0) {
+                Labeler labeler = (Labeler) Decorator.getDecorator(viewer, Labeler.class);
+                if (labeler != null) {
+                    String id = viewer.getId();
+                    String current = labeler.getLabel();
+                    if (current == null) current = "";
+                    originalLabels.put(id, current);
+                    String activation = "*ACTIVATE? (Rng=" + rangeBracket + ")*";
+                    String newLabel = current.isEmpty() ? activation : current + "\n" + activation;
+                    getGameModule().getChatter().send(
+                        "***   label: '" + current + "' → '" + newLabel + "'"
+                    );
+                    labeler.setLabel(newLabel);
+                } else {
+                    getGameModule().getChatter().send(
+                        "***   nessun Labeler su '" + Decorator.getInnermost(viewer).getName() + "'"
+                    );
                 }
             }
         }
@@ -405,10 +461,14 @@ public class ASLPBSChecker extends AbstractConfigurable
     private void pieceListClear() {
         if (!pieceList.isEmpty()) {
             for (GamePiece piece : pieceList) {
-                piece.setProperty("ActivationFlag", 1);
-                piece.setProperty("RangeBracket", 1);
+                Labeler labeler = (Labeler) Decorator.getDecorator(piece, Labeler.class);
+                if (labeler != null) {
+                    labeler.setLabel(originalLabels.getOrDefault(piece.getId(), ""));
+                }
             }
             pieceList.clear();
+            originalLabels.clear();
+            mainMap.repaint();
         }
     }
 
@@ -423,6 +483,24 @@ public class ASLPBSChecker extends AbstractConfigurable
     // -------------------------------------------------------------------------
     // Piece classification
     // -------------------------------------------------------------------------
+
+    private void debugCanActivate(GamePiece piece) {
+        String name = Decorator.getInnermost(piece).getName();
+        String nat  = getNationality(piece);
+        boolean onboard  = isOnboard(piece);
+        boolean isA      = isFactionA(piece);
+        boolean isB      = isFactionB(piece);
+        boolean isUnit   = onboard && VASLGameInterface.isUnitCounter(piece);
+        getGameModule().getChatter().send(
+            "*** canActivate '" + name + "'"
+            + " nat='" + nat + "'"
+            + " onboard=" + onboard
+            + " isA=" + isA + " isB=" + isB
+            + " isUnit=" + isUnit
+            + " fA1='" + factionANat1 + "' fA2='" + factionANat2
+            + "' fB1='" + factionBNat1 + "' fB2='" + factionBNat2 + "'"
+        );
+    }
 
     private boolean canActivate(GamePiece piece) {
         if (!isOnboard(piece)) return false;
@@ -490,6 +568,8 @@ public class ASLPBSChecker extends AbstractConfigurable
     }
 
     private int getActivationRangesIndex(String nationality) {
+        // alias: Vichy France usa le stesse tabelle di France
+        if ("vf".equals(nationality)) return getActivationRangesIndex("fr");
         for (int i = 0; i < nationalities.length; i++) {
             if (nationalities[i].equals(nationality)) return i;
         }
