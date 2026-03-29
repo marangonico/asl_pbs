@@ -54,6 +54,16 @@ public class ASLPBSChecker extends AbstractConfigurable
 
     final ArrayList<GamePiece> pieceList = new ArrayList<>();
 
+    // Fire Discipline (IFT First Fire – 2.1)
+    private static final String DISCIPLINE_NONE         = "—";
+    private static final String DISCIPLINE_SUPPRESSION  = "Suppression";
+    private static final String DISCIPLINE_INTERDICTION = "Interdiction";
+
+    private String  currentDiscipline    = DISCIPLINE_NONE;
+    private boolean lastWasInterdiction  = false;
+    private final java.util.Random rng   = new java.util.Random();
+    private javax.swing.JButton disciplineButton;
+
     private static final java.util.regex.Pattern ACTIVATION_LABEL_PATTERN =
         java.util.regex.Pattern.compile("\\n?\\*ACTIVATE\\? \\(R=\\d+\\)\\*");
 
@@ -108,6 +118,11 @@ public class ASLPBSChecker extends AbstractConfigurable
         resetButton.setToolTipText("Rimuove i marker *ACTIVATE?* dalle pedine");
         resetButton.addActionListener(e -> pieceListClear());
         getGameModule().getToolBar().add(resetButton);
+
+        disciplineButton = new JButton("PBS Disc.: " + DISCIPLINE_NONE);
+        disciplineButton.setToolTipText("Tira 1d10 per la First Fire Discipline (IFT 2.1)");
+        disciplineButton.addActionListener(e -> rollFireDiscipline());
+        getGameModule().getToolBar().add(disciplineButton);
 
         Command c = new NullCommand();
         c.append(new VASSAL.build.module.Chatter.DisplayText(
@@ -324,6 +339,7 @@ public class ASLPBSChecker extends AbstractConfigurable
             }
         }
         pieceList.clear();
+        // resetFireDiscipline();
         mainMap.repaint();
     }
 
@@ -341,6 +357,35 @@ public class ASLPBSChecker extends AbstractConfigurable
             movingFactionB.clear();
         }
         return false;
+    }
+
+    // -------------------------------------------------------------------------
+    // Fire Discipline (IFT 2.1 – 1d10)
+    // -------------------------------------------------------------------------
+
+    private void rollFireDiscipline() {
+        int roll = rng.nextInt(10) + 1;          // 1–10
+        int drm  = lastWasInterdiction ? -3 : 0;
+        int modified = roll + drm;
+
+        boolean interdiction = modified <= 3;
+        currentDiscipline   = interdiction ? DISCIPLINE_INTERDICTION : DISCIPLINE_SUPPRESSION;
+        lastWasInterdiction = interdiction;
+
+        disciplineButton.setText("PBS Disc.: " + currentDiscipline);
+
+        String msg = "*** PBS Fire Discipline: 1d10=" + roll;
+        if (drm != 0) msg += " DRM=" + drm + " (mod=" + modified + ")";
+        msg += " → " + currentDiscipline;
+        getGameModule().getChatter().send(msg);
+    }
+
+    private void resetFireDiscipline() {
+        currentDiscipline   = DISCIPLINE_NONE;
+        lastWasInterdiction = false;
+        if (disciplineButton != null) {
+            disciplineButton.setText("PBS Disc.: " + DISCIPLINE_NONE);
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -611,7 +656,10 @@ public class ASLPBSChecker extends AbstractConfigurable
 
     @Override
     public void setup(boolean gameStarting) {
-        if (!gameStarting) return;
+        if (!gameStarting) {
+            resetFireDiscipline();
+            return;
+        }
 
         // pbsMap: cerca la mappa "PBS Sides" tra tutte le mappe caricate
         isPBSExtensionPresent();
