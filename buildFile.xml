@@ -283,7 +283,7 @@
         </VASSAL.build.module.Map>
     </VASSAL.build.module.ExtensionElement>
     <VASSAL.build.module.ExtensionElement target="">
-        <VASSAL.build.module.DiceButton addToTotal="0" canDisable="false" disabledIcon="" hideWhenDisabled="false" hotkey="" icon="" keepCount="1" keepDice="false" keepOption="&gt;" lockAdd="false" lockDice="false" lockPlus="false" lockSides="false" nDice="1" nSides="10" name="1d10" plus="0" prompt="false" propertyGate="" reportFormat="** $name$ = $result$ *** &amp;lt;$PlayerName$&amp;gt;" reportTotal="false" sortDice="false" text="1d10" tooltip="1d10"/>
+        <VASSAL.build.module.DiceButton addToTotal="0" canDisable="false" disabledIcon="" hideWhenDisabled="false" hotkey="" icon="d10 .svg" keepCount="1" keepDice="false" keepOption="&gt;" lockAdd="false" lockDice="false" lockPlus="false" lockSides="false" nDice="1" nSides="10" name="1d10" plus="0" prompt="false" propertyGate="" reportFormat="** $name$ = $result$ *** &amp;lt;$PlayerName$&amp;gt;" reportTotal="false" sortDice="false" text="1d10" tooltip="1d10"/>
     </VASSAL.build.module.ExtensionElement>
     <VASSAL.build.module.ExtensionElement target="">
         <VASL.build.module.ASLPBSChecker AutoFireDiscipline="false" CheckActivationsKey="57353,0,d85f6a41" ClearFlaresKey="57352,0,d85f6a40" Name="ASLPBSChecker"/>
