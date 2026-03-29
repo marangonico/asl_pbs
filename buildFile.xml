@@ -52,7 +52,7 @@
         </VASSAL.build.module.PieceWindow>
     </VASSAL.build.module.ExtensionElement>
     <VASSAL.build.module.ExtensionElement target="">
-        <VASSAL.build.module.ToolbarMenu canDisable="false" description="PBS" disabledIcon="" hideWhenDisabled="false" hotkey="" icon="asl_pbs.png" menuItems="PBS Counters,PBS Cloaking Display,PBS Aider,PBS Tracker Sheet" propertyGate="" text="" tooltip="Play Both Sides"/>
+        <VASSAL.build.module.ToolbarMenu canDisable="false" description="PBS" disabledIcon="" hideWhenDisabled="false" hotkey="" icon="asl_pbs.png" menuItems="PBS Counters,PBS Cloaking Display,PBS Aider,PBS Tracker Sheet,PBS Sides" propertyGate="" text="" tooltip="Play Both Sides"/>
     </VASSAL.build.module.ExtensionElement>
     <VASSAL.build.module.ExtensionElement target="">
         <VASSAL.build.module.Map allowMultiple="false" backgroundcolor="255,255,255" buttonName="PBS Tracker Sheet" changeFormat="$message$" color="0,0,0" createFormat="$pieceName$ created in $location$ *" description="" edgeHeight="0" edgeWidth="0" hideKey="" hotkey="" icon="/images/map.gif" launch="true" mapName="PBS Tracker Sheet" markMoved="Never" markUnmovedHotkey="" markUnmovedIcon="/images/unmoved.gif" markUnmovedReport="" markUnmovedText="" markUnmovedTooltip="Mark all pieces on this map as not moved" moveKey="" moveToFormat="$pieceName$ moves $previousLocation$ &amp;rarr; $location$ *" moveWithinFormat="$pieceName$ moves $previousLocation$ &amp;rarr; $location$ *" onlyReportChangedLocation="false" showKey="" thickness="3">
@@ -286,7 +286,7 @@
         <VASSAL.build.module.DiceButton addToTotal="0" canDisable="false" disabledIcon="" hideWhenDisabled="false" hotkey="" icon="" keepCount="1" keepDice="false" keepOption="&gt;" lockAdd="false" lockDice="false" lockPlus="false" lockSides="false" nDice="1" nSides="10" name="1d10" plus="0" prompt="false" propertyGate="" reportFormat="** $name$ = $result$ *** &amp;lt;$PlayerName$&amp;gt;" reportTotal="false" sortDice="false" text="1d10" tooltip="1d10"/>
     </VASSAL.build.module.ExtensionElement>
     <VASSAL.build.module.ExtensionElement target="">
-        <VASL.build.module.ASLPBSChecker CheckActivationsKey="57353,0,d85f6a41" ClearFlaresKey="57352,0,d85f6a40" Name="ASLPBSChecker"/>
+        <VASL.build.module.ASLPBSChecker AutoFireDiscipline="false" CheckActivationsKey="57353,0,d85f6a41" ClearFlaresKey="57352,0,d85f6a40" Name="ASLPBSChecker"/>
     </VASSAL.build.module.ExtensionElement>
     <VASSAL.build.module.ExtensionElement target="">
         <VASSAL.build.module.Map allowMultiple="false" backgroundcolor="255,255,255" buttonName="PBS Sides" changeFormat="$message$" color="0,0,0" createFormat="$pieceName$ created in $location$ *" description="" edgeHeight="0" edgeWidth="0" hideKey="" hotkey="" icon="/images/map.gif" launch="true" mapName="PBS Sides" markMoved="Never" markUnmovedHotkey="" markUnmovedIcon="/images/unmoved.gif" markUnmovedReport="" markUnmovedText="" markUnmovedTooltip="Mark all pieces on this map as not moved" moveKey="" moveToFormat="$pieceName$ moves $previousLocation$ &amp;rarr; $location$ *" moveWithinFormat="$pieceName$ moves $previousLocation$ &amp;rarr; $location$ *" onlyReportChangedLocation="false" showKey="" thickness="3" tooltip="Put your counters here to designate nations sides">
@@ -317,5 +317,29 @@
             <VASSAL.build.module.map.SelectionHighlighters/>
             <VASSAL.build.module.map.HighlightLastMoved color="255,0,0" enabled="true" thickness="2"/>
         </VASSAL.build.module.Map>
+    </VASSAL.build.module.ExtensionElement>
+    <VASSAL.build.module.ExtensionElement target="">
+        <VASSAL.build.module.ChartWindow hotkey="" icon="" name="PBS Tables" text="PBS Tables" tooltip="PBS Tables">
+            <VASSAL.build.widget.TabWidget entryName="">
+                <VASSAL.build.widget.PanelWidget entryName="Generic" fixed="false" nColumns="3" scale="1.0" vert="false">
+                    <VASSAL.build.widget.Chart chartName="Generic" fileName="ASL PBS Tables-001.png"/>
+                </VASSAL.build.widget.PanelWidget>
+                <VASSAL.build.widget.PanelWidget entryName="IFT First Fire" fixed="false" nColumns="3" scale="1.0" vert="false">
+                    <VASSAL.build.widget.Chart chartName="IFT First Fire" fileName="ASL PBS Tables-002.png"/>
+                </VASSAL.build.widget.PanelWidget>
+                <VASSAL.build.widget.PanelWidget entryName="Ordnance First Fire" fixed="false" nColumns="3" scale="1.0" vert="false">
+                    <VASSAL.build.widget.Chart chartName="Ordnance First Fire" fileName="ASL PBS Tables-003.png"/>
+                </VASSAL.build.widget.PanelWidget>
+                <VASSAL.build.widget.PanelWidget entryName="Hip &amp; Concealment" fixed="false" nColumns="3" scale="1.0" vert="false">
+                    <VASSAL.build.widget.Chart chartName="Hip &amp; Concealment" fileName="ASL PBS Tables-004.png"/>
+                </VASSAL.build.widget.PanelWidget>
+                <VASSAL.build.widget.PanelWidget entryName="Misc 1" fixed="false" nColumns="3" scale="1.0" vert="false">
+                    <VASSAL.build.widget.Chart chartName="Misc 1" fileName="ASL PBS Tables-005.png"/>
+                </VASSAL.build.widget.PanelWidget>
+                <VASSAL.build.widget.PanelWidget entryName="Misc 2" fixed="false" nColumns="3" scale="1.0" vert="false">
+                    <VASSAL.build.widget.Chart chartName="Misc 2" fileName="ASL PBS Tables-006.png"/>
+                </VASSAL.build.widget.PanelWidget>
+            </VASSAL.build.widget.TabWidget>
+        </VASSAL.build.module.ChartWindow>
     </VASSAL.build.module.ExtensionElement>
 </VASSAL.build.module.ModuleExtension>
