@@ -186,7 +186,20 @@ public class ASLPBSChecker extends AbstractConfigurable
     private void visitForMoves(Command c, List<GamePiece> acc) {
         if (c == null || c.isNull()) return;
         if (c instanceof MovePiece) {
-            addPieceById(((MovePiece) c).getId(), acc, false);
+            MovePiece mv = (MovePiece) c;
+            String mainMapId = mainMap != null ? mainMap.getId() : "null";
+//            getGameModule().getChatter().send(
+//                "*** PBS MovePiece: oldMap=" + mv.getOldMapId()
+//                + " newMap=" + mv.getNewMapId()
+//                + " mainMap=" + mainMapId
+//            );
+            if (mainMap != null
+                    && mainMap == Map.getMapById(mv.getOldMapId())
+                    && mainMap == Map.getMapById(mv.getNewMapId())) {
+                addPieceById(mv.getId(), acc, false);
+//                getGameModule().getChatter().send(
+//                        "*** PBS Moving on Main Map");
+//                }
         } else if (c instanceof ChangePiece) {
             addPieceById(((ChangePiece) c).getId(), acc, true);
         }
@@ -198,7 +211,9 @@ public class ASLPBSChecker extends AbstractConfigurable
     private void addPieceById(String id, List<GamePiece> acc, boolean filterByChange) {
         for (GamePiece p : GameModule.getGameModule().getGameState().getAllPieces()) {
             if (!id.equals(p.getId())) continue;
-            if (!acc.contains(p) && (!filterByChange || isRelevantChange(p))) {
+            if (!acc.contains(p)
+                    && (!filterByChange || isRelevantChange(p))
+                    && mainMap != null && mainMap.equals(p.getMap())) {
                 acc.add(p);
             }
             break;
@@ -689,13 +704,20 @@ public class ASLPBSChecker extends AbstractConfigurable
         // pbsMap: cerca la mappa "PBS Sides" tra tutte le mappe caricate
         isPBSExtensionPresent();
 
-        // mainMap: se non già impostato via addTo(), cercalo tra tutte le Map attive
+        // mainMap: cerca per nome "Main Map" tra tutte le Map attive
         if (mainMap == null) {
             for (Map m : Map.getMapList()) {
-                if (m instanceof ASLMap) {
+//                getGameModule().getChatter().send(
+//                    "*** PBS getMapList: map=" + m.getMapName()
+//                );
+
+                if (m instanceof ASLMap && "Main Map".equals(m.getMapName())) {
                     mainMap = (ASLMap) m;
                     mainMap.addDrawComponent(this);
                     mainMap.getView().addKeyListener(this);
+//                    getGameModule().getChatter().send(
+//                            "*** PBS getMapList: Found Main Map=" + mainMap.getMapName()
+//                    );
                     break;
                 }
             }
