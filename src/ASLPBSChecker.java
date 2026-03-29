@@ -21,6 +21,7 @@ import VASSAL.command.NullCommand;
 import VASSAL.configure.NamedHotKeyConfigurer;
 import VASSAL.counters.BasicPiece;
 import VASSAL.counters.Decorator;
+import VASSAL.counters.FreeRotator;
 import VASSAL.counters.GamePiece;
 import VASSAL.counters.Labeler;
 import VASSAL.counters.PieceIterator;
@@ -147,23 +148,30 @@ public class ASLPBSChecker extends AbstractConfigurable
 
     private void visitForMoves(Command c, List<GamePiece> acc) {
         if (c == null || c.isNull()) return;
-        String id = null;
         if (c instanceof MovePiece) {
-            id = ((MovePiece) c).getId();
+            addPieceById(((MovePiece) c).getId(), acc, false);
         } else if (c instanceof ChangePiece) {
-            id = ((ChangePiece) c).getId();
-        }
-        if (id != null) {
-            for (GamePiece p : GameModule.getGameModule().getGameState().getAllPieces()) {
-                if (id.equals(p.getId()) && !acc.contains(p)) {
-                    acc.add(p);
-                    break;
-                }
-            }
+            addPieceById(((ChangePiece) c).getId(), acc, true);
         }
         for (Command sub : c.getSubCommands()) {
             visitForMoves(sub, acc);
         }
+    }
+
+    private void addPieceById(String id, List<GamePiece> acc, boolean filterByChange) {
+        for (GamePiece p : GameModule.getGameModule().getGameState().getAllPieces()) {
+            if (!id.equals(p.getId())) continue;
+            if (!acc.contains(p) && (!filterByChange || isRelevantChange(p))) {
+                acc.add(p);
+            }
+            break;
+        }
+    }
+
+    // true se il ChangePiece riguarda una rotazione (FreeRotator) o un moved marker
+    private boolean isRelevantChange(GamePiece p) {
+        if (Decorator.getDecorator(p, FreeRotator.class) != null) return true;
+        return Boolean.TRUE.equals(p.getProperty(Properties.MOVED));
     }
 
     // -------------------------------------------------------------------------
