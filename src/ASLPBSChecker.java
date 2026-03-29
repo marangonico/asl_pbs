@@ -15,6 +15,7 @@ import VASSAL.build.module.documentation.HelpFile;
 import VASSAL.build.module.map.Drawable;
 import VASSAL.command.Command;
 import VASSAL.command.CommandEncoder;
+import VASSAL.command.ChangePiece;
 import VASSAL.command.MovePiece;
 import VASSAL.command.NullCommand;
 import VASSAL.configure.NamedHotKeyConfigurer;
@@ -146,10 +147,15 @@ public class ASLPBSChecker extends AbstractConfigurable
 
     private void visitForMoves(Command c, List<GamePiece> acc) {
         if (c == null || c.isNull()) return;
+        String id = null;
         if (c instanceof MovePiece) {
-            String id = ((MovePiece) c).getId();
+            id = ((MovePiece) c).getId();
+        } else if (c instanceof ChangePiece) {
+            id = ((ChangePiece) c).getId();
+        }
+        if (id != null) {
             for (GamePiece p : GameModule.getGameModule().getGameState().getAllPieces()) {
-                if (id.equals(p.getId())) {
+                if (id.equals(p.getId()) && !acc.contains(p)) {
                     acc.add(p);
                     break;
                 }
