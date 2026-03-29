@@ -51,7 +51,9 @@ public class ASLPBSChecker extends AbstractConfigurable
     ArrayList<GamePiece> movingFactionB = new ArrayList<>();
 
     final ArrayList<GamePiece> pieceList = new ArrayList<>();
-    private final java.util.Map<String, String> originalLabels = new java.util.HashMap<>();
+
+    private static final java.util.regex.Pattern ACTIVATION_LABEL_PATTERN =
+        java.util.regex.Pattern.compile("\\n?\\*ACTIVATE\\? \\(R=\\d+\\)\\*");
 
     private String factionANat1 = "";  // da regione NatA1 su PBS Sides
     private String factionANat2 = "";  // da regione NatA2 su PBS Sides
@@ -70,84 +72,7 @@ public class ASLPBSChecker extends AbstractConfigurable
     private NamedKeyStroke checkActivationsKey = new NamedKeyStroke("d85f6a41"); // CTL+ALT+S
 
     // -------------------------------------------------------------------------
-    // Nationalities / activation ranges  (identical to SASLActivationChecker)
     // -------------------------------------------------------------------------
-    // Codici nazionalità VASL (proprietà "Nation" su Concealable)
-    private static final String[] nationalities = {
-        "",     // 0 - nessuna/sconosciuta
-        "al",   // 1 - Allied Minors
-        "ax",   // 2 - Axis Minors
-        "ch",   // 3 - China
-        "fi",   // 4 - Finland
-        "fr",   // 5 - France / Vichy (vedi getActivationRangesIndex)
-        "ge",   // 6 - Germany
-        "br",   // 7 - Great Britain
-        "it",   // 8 - Italy
-        "ja",   // 9 - Japan
-        "pa",   // 10 - Partisan
-        "ru",   // 11 - Russia
-        "am",   // 12 - US / USMC 44+
-        "us",   // 13 - USMC 41-43
-        "bc",   // 14 - BCFK
-        "cc",   // 15 - CPVA
-        "nk",   // 16 - KPA (North Korea)
-        "un",   // 17 - OUNC
-        "sk",   // 18 - South Korea
-    };
-
-    private static final int[][] activationRangesInfantry = {
-        // 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16
-        {  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 }, // None
-        {  2,  2,  3,  4,  5,  5,  6,  7,  7,  7,  7,  8,  8,  8,  8,  8,  8 }, // Allied Minors
-        {  2,  2,  3,  4,  5,  6,  6,  7,  7,  8,  8,  8,  8,  8,  8,  8,  8 }, // Axis Minors
-        {  2,  2,  3,  4,  5,  6,  6,  7,  7,  8,  8,  8,  8,  8,  8,  8,  8 }, // China
-        {  2,  2,  3,  4,  5,  6,  6,  7,  7,  8,  8,  8,  8,  8,  8,  8,  8 }, // Finland
-        {  2,  2,  3,  4,  5,  5,  6,  7,  7,  7,  7,  8,  8,  8,  8,  8,  8 }, // France (Vichy)
-        {  2,  2,  3,  4,  4,  5,  5,  6,  6,  7,  7,  7,  7,  8,  8,  8,  8 }, // Germany
-        {  2,  2,  3,  4,  4,  5,  6,  6,  7,  7,  7,  8,  8,  8,  8,  8,  8 }, // Great Britain
-        {  2,  2,  3,  4,  5,  6,  6,  7,  7,  8,  8,  8,  8,  8,  8,  8,  8 }, // Italy
-        {  2,  2,  3,  4,  5,  6,  6,  7,  7,  8,  8,  8,  8,  8,  8,  8,  8 }, // Japan
-        {  2,  2,  4,  5,  6,  7,  7,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8 }, // Partisan
-        {  2,  2,  3,  4,  5,  6,  6,  7,  7,  8,  8,  8,  8,  8,  8,  8,  8 }, // Russia
-        {  2,  2,  3,  4,  4,  5,  5,  6,  6,  7,  7,  7,  7,  8,  8,  8,  8 }, // US/USMC 44+
-        {  2,  2,  3,  4,  4,  5,  6,  6,  7,  7,  7,  8,  8,  8,  8,  8,  8 }, // USMC 41-43
-        {  2,  2,  3,  4,  4,  5,  5,  6,  6,  7,  7,  8,  8,  8,  8,  8,  8 }, // BCFK
-        {  2,  2,  3,  4,  5,  6,  7,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8 }, // CPVA
-        {  2,  2,  3,  4,  5,  6,  6,  7,  7,  8,  8,  8,  8,  8,  8,  8,  8 }, // KPA
-        {  2,  2,  3,  4,  5,  6,  7,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8 }, // OUNC
-        {  2,  2,  3,  4,  5,  6,  6,  7,  7,  8,  8,  8,  8,  8,  8,  8,  8 }, // South Korea
-    };
-
-    private static final int[][] activationRangesVehicles = {
-        // 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16
-        {  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 }, // None
-        {  2,  2,  3,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 }, // Allied Minors
-        {  2,  2,  3,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 }, // Axis Minors
-        {  2,  2,  3,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 }, // China
-        {  2,  2,  3,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 }, // Finland
-        {  2,  2,  3,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 }, // France (Vichy)
-        {  2,  2,  3,  4,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 }, // Germany
-        {  2,  2,  3,  4,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 }, // Great Britain
-        {  2,  2,  3,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 }, // Italy
-        {  2,  2,  3,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 }, // Japan
-        {  2,  2,  3,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 }, // Partisan
-        {  2,  2,  3,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 }, // Russia
-        {  2,  2,  3,  4,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 }, // US/USMC 44+
-        {  2,  2,  3,  4,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 }, // USMC 41-43
-        {  2,  2,  3,  4,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 }, // BCFK
-        {  2,  2,  3,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 }, // CPVA
-        {  2,  2,  3,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 }, // KPA
-        {  2,  2,  3,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 }, // OUNC
-        {  2,  2,  3,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 }, // South Korea
-    };
-
-    enum CounterType {
-        NON_VEHICLE, TRACKED_VEHICLE, VEHICLE
-    }
-
-    enum VehicleStatus {
-        BUTTONED_UP, CREW_EXPOSED, UNARMORED
-    }
 
     // -------------------------------------------------------------------------
     // Lifecycle
@@ -317,23 +242,14 @@ public class ASLPBSChecker extends AbstractConfigurable
     }
 
     private void testActivation(GamePiece piece) {
-        int range;
         if (!isOnboard(piece)) return;
 
         // Faction A moved → spot faction B pieces in LOS
         if (!movingFactionA.isEmpty() && isFactionB(piece)) {
             for (GamePiece mover : movingFactionA) {
                 if (mover == piece) continue;
-                CounterType ct = getCounterType(mover);
-                range = losRange(mover, piece, ct);
-                getGameModule().getChatter().send(
-                    "*** LOS A→B: mover='" + Decorator.getInnermost(mover).getName()
-                    + "' target='" + Decorator.getInnermost(piece).getName()
-                    + "' range=" + range
-                );
-                if (range >= 0) {
-                    setPieceSpotted(mover, piece, range, ct);
-                }
+                int range = losRange(mover, piece);
+                if (range >= 0) setPieceSpotted(piece, range);
             }
         }
 
@@ -341,135 +257,68 @@ public class ASLPBSChecker extends AbstractConfigurable
         if (!movingFactionB.isEmpty() && isFactionA(piece)) {
             for (GamePiece mover : movingFactionB) {
                 if (mover == piece) continue;
-                CounterType ct = getCounterType(mover);
-                range = losRange(mover, piece, ct);
-                getGameModule().getChatter().send(
-                    "*** LOS B→A: mover='" + Decorator.getInnermost(mover).getName()
-                    + "' target='" + Decorator.getInnermost(piece).getName()
-                    + "' range=" + range
-                );
-                if (range >= 0) {
-                    setPieceSpotted(mover, piece, range, ct);
-                }
+                int range = losRange(mover, piece);
+                if (range >= 0) setPieceSpotted(piece, range);
             }
         }
     }
 
-    private int losRange(GamePiece viewed, GamePiece viewer, CounterType counterType) {
-        int range = -1;
-        if (viewed != null && viewer != null) {
-            Location l1 = VASLGameInterface.getLocation(viewed);
-            Location l2 = VASLGameInterface.getLocation(viewer);
-            if (l1 != null && l2 != null) {
-                LOSResult losResult = new LOSResult();
-                mainMap.getVASLMap().LOS(l1, false, l2, false, losResult, VASLGameInterface);
-                if (!losResult.isBlocked() && (losResult.getRange() <= 16)) {
-                    int myNvr = nvr;
-                    range = losResult.getRange();
-                    if (counterType != CounterType.NON_VEHICLE) {
-                        double temp = nvr;
-                        if (counterType == CounterType.TRACKED_VEHICLE) {
-                            temp = (myNvr == 0) ? 2.0 : (temp * 2.0);
-                        } else if (counterType == CounterType.VEHICLE) {
-                            temp = (myNvr == 0) ? 1.0 : (temp * 1.5);
-                        }
-                        myNvr = (int) Math.round(temp);
-                    }
-                    if (myNvr >= 0) {
-                        if (illuminated(viewer)) {
-                            if (!illuminated(viewed)) {
-                                range = -1;
-                            }
-                        } else if (range > myNvr) {
-                            if (!illuminated(viewed)) {
-                                range = -1;
-                            }
-                        }
-                    }
-                }
+    private int losRange(GamePiece mover, GamePiece target) {
+        if (mover == null || target == null) return -1;
+        Location l1 = VASLGameInterface.getLocation(mover);
+        Location l2 = VASLGameInterface.getLocation(target);
+        if (l1 == null || l2 == null) return -1;
+        LOSResult losResult = new LOSResult();
+        mainMap.getVASLMap().LOS(l1, false, l2, false, losResult, VASLGameInterface);
+        if (losResult.isBlocked()) return -1;
+        int range = losResult.getRange();
+        if (nvr >= 0) {
+            if (illuminated(target)) {
+                if (!illuminated(mover)) return -1;
+            } else if (range > nvr && !illuminated(mover)) {
+                return -1;
             }
         }
         return range;
     }
 
-    // viewed = il mover che ha rivelato il viewer; viewer = la pedina che viene segnalata
-    private void setPieceSpotted(GamePiece viewed, GamePiece viewer, int range, CounterType counterType) {
-        String viewerName = Decorator.getInnermost(viewer).getName();
-        boolean nameOk    = !viewerName.isEmpty();
-        boolean typeOk    = viewer instanceof Decorator || viewer instanceof BasicPiece;
-        boolean notInList = !pieceList.contains(viewer);
-        getGameModule().getChatter().send(
-            "*** setPieceSpotted: '" + viewerName + "'"
-            + " nameOk=" + nameOk
-            + " typeOk=" + typeOk
-            + " notInList=" + notInList
-        );
-        if (nameOk && typeOk && notInList) {
-            pieceList.add(viewer);
-            int rangeBracket;
-            switch (counterType) {
-                case VEHICLE:
-                case TRACKED_VEHICLE:
-                    rangeBracket = getVehicleRangeBracket(viewed, viewer, range);
-                    break;
-                default:
-                    rangeBracket = activationRangesInfantry[getActivationRangesIndex(getNationality(viewer))][range];
-                    break;
-            }
-            getGameModule().getChatter().send(
-                "***   rangeBracket=" + rangeBracket
-                + " nat='" + getNationality(viewer) + "'"
-                + " natIdx=" + getActivationRangesIndex(getNationality(viewer))
-                + " range=" + range
-            );
-            if (rangeBracket != 0) {
-                Labeler labeler = (Labeler) Decorator.getDecorator(viewer, Labeler.class);
-                if (labeler != null) {
-                    String id = viewer.getId();
-                    String current = labeler.getLabel();
-                    if (current == null) current = "";
-                    originalLabels.put(id, current);
-                    String activation = "*ACTIVATE? (Rng=" + rangeBracket + ")*";
-                    String newLabel = current.isEmpty() ? activation : current + "\n" + activation;
-                    getGameModule().getChatter().send(
-                        "***   label: '" + current + "' → '" + newLabel + "'"
-                    );
-                    labeler.setLabel(newLabel);
-                } else {
-                    getGameModule().getChatter().send(
-                        "***   nessun Labeler su '" + Decorator.getInnermost(viewer).getName() + "'"
-                    );
-                }
-            }
-        }
-    }
+    // viewer = la pedina della fazione opposta che potrebbe reagire
+    private void setPieceSpotted(GamePiece viewer, int range) {
+        if (Decorator.getInnermost(viewer).getName().isEmpty()) return;
+        if (!(viewer instanceof Decorator || viewer instanceof BasicPiece)) return;
+        if (pieceList.contains(viewer)) return;
 
-    private int getVehicleRangeBracket(GamePiece viewed, GamePiece viewer, int range) {
-        int result = activationRangesVehicles[getActivationRangesIndex(getNationality(viewer))][range];
-        VehicleStatus vehicleStatus = VehicleStatus.UNARMORED;
-        if (viewed.getName().contains("BU")) {
-            vehicleStatus = VehicleStatus.BUTTONED_UP;
-        } else if (viewed.getName().contains("CE")) {
-            vehicleStatus = VehicleStatus.CREW_EXPOSED;
+        pieceList.add(viewer);
+        Labeler labeler = (Labeler) Decorator.getDecorator(viewer, Labeler.class);
+        if (labeler != null) {
+            String current = labeler.getLabel();
+            if (current == null) current = "";
+            String activation = "*ACTIVATE? (R=" + range + ")*";
+            labeler.setLabel(current.isEmpty() ? activation : current + "\n" + activation);
         }
-        if ((result > 2) && (VehicleStatus.BUTTONED_UP == vehicleStatus)) {
-            result = 0;
-        }
-        return result;
     }
 
     private void pieceListClear() {
-        if (!pieceList.isEmpty()) {
-            for (GamePiece piece : pieceList) {
-                Labeler labeler = (Labeler) Decorator.getDecorator(piece, Labeler.class);
-                if (labeler != null) {
-                    labeler.setLabel(originalLabels.getOrDefault(piece.getId(), ""));
+        if (mainMap == null) return;
+        for (GamePiece piece : mainMap.getPieces()) {
+            if (piece instanceof Stack) {
+                for (PieceIterator pi = new PieceIterator(((Stack) piece).getPiecesIterator()); pi.hasMoreElements(); ) {
+                    stripActivationLabel(pi.nextPiece());
                 }
+            } else {
+                stripActivationLabel(piece);
             }
-            pieceList.clear();
-            originalLabels.clear();
-            mainMap.repaint();
         }
+        pieceList.clear();
+        mainMap.repaint();
+    }
+
+    private void stripActivationLabel(GamePiece piece) {
+        Labeler labeler = (Labeler) Decorator.getDecorator(piece, Labeler.class);
+        if (labeler == null) return;
+        String current = labeler.getLabel();
+        if (current == null || !current.contains("*ACTIVATE?")) return;
+        labeler.setLabel(ACTIVATION_LABEL_PATTERN.matcher(current).replaceAll(""));
     }
 
     private boolean clearMovingCounters(boolean clear) {
@@ -522,34 +371,6 @@ public class ASLPBSChecker extends AbstractConfigurable
         return !nat.isEmpty() && (nat.equals(factionBNat1) || nat.equals(factionBNat2));
     }
 
-    CounterType getCounterType(GamePiece piece) {
-        if (isTrackedVehicle(piece)) return CounterType.TRACKED_VEHICLE;
-        if (isVehicle(piece))        return CounterType.VEHICLE;
-        return CounterType.NON_VEHICLE;
-    }
-
-    boolean isTrackedVehicle(GamePiece piece) {
-        Object prop = piece.getProperty("vehicleType");
-        if (prop != null) {
-            switch (prop.toString()) {
-                case "ft": case "ft_a": case "ht": return true;
-                default: break;
-            }
-        }
-        return false;
-    }
-
-    boolean isVehicle(GamePiece piece) {
-        Object prop = piece.getProperty("vehicleType");
-        if (prop != null) {
-            switch (prop.toString()) {
-                case "ac": case "hd": case "mc": case "sk": case "tr": case "tr_a": return true;
-                default: break;
-            }
-        }
-        return false;
-    }
-
     private boolean isOnboard(GamePiece piece) {
         return (VASLGameInterface.getLocation(piece) != null);
     }
@@ -565,15 +386,6 @@ public class ASLPBSChecker extends AbstractConfigurable
             if (prop != null) return prop.toString();
         }
         return "";
-    }
-
-    private int getActivationRangesIndex(String nationality) {
-        // alias: Vichy France usa le stesse tabelle di France
-        if ("vf".equals(nationality)) return getActivationRangesIndex("fr");
-        for (int i = 0; i < nationalities.length; i++) {
-            if (nationalities[i].equals(nationality)) return i;
-        }
-        return 0;
     }
 
     private void updateNationalities() {
