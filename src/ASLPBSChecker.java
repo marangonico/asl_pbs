@@ -30,6 +30,7 @@ import VASSAL.counters.Stack;
 import VASSAL.tools.NamedKeyStroke;
 
 import javax.swing.JButton;
+import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -66,6 +67,7 @@ public class ASLPBSChecker extends AbstractConfigurable
     private boolean lastWasInterdiction  = false;
     private final java.util.Random rng   = new java.util.Random();
     private javax.swing.JButton disciplineButton;
+    private JToggleButton autoDiscToggle;
 
     private static final java.util.regex.Pattern ACTIVATION_LABEL_PATTERN =
         java.util.regex.Pattern.compile("\\n?\\*ACTIVATE\\? \\(R=\\d+\\)\\*");
@@ -79,12 +81,14 @@ public class ASLPBSChecker extends AbstractConfigurable
     // -------------------------------------------------------------------------
     // Key bindings
     // -------------------------------------------------------------------------
-    private static final String NAME                 = "Name";
-    private static final String CLEAR_FLARES_KEY     = "ClearFlaresKey";
-    private static final String CHECK_ACTIVATIONS_KEY = "CheckActivationsKey";
+    private static final String NAME                    = "Name";
+    private static final String CLEAR_FLARES_KEY        = "ClearFlaresKey";
+    private static final String CHECK_ACTIVATIONS_KEY   = "CheckActivationsKey";
+    private static final String AUTO_FIRE_DISCIPLINE    = "AutoFireDiscipline";
 
     private NamedKeyStroke clearFlaresKey      = new NamedKeyStroke("d85f6a40"); // CTL+ALT+X
     private NamedKeyStroke checkActivationsKey = new NamedKeyStroke("d85f6a41"); // CTL+ALT+S
+    private boolean        autoFireDiscipline  = false;
 
     // -------------------------------------------------------------------------
     // -------------------------------------------------------------------------
@@ -118,13 +122,13 @@ public class ASLPBSChecker extends AbstractConfigurable
         getGameModule().addCommandEncoder(this);
 
         JButton resetButton = new JButton("PBS Reset");
-        resetButton.setToolTipText("Rimuove i marker *ACTIVATE?* dalle pedine");
+        resetButton.setToolTipText("Remove *ACTIVATE?* markers from all counters");
         resetButton.addActionListener(e -> pieceListClear());
         getGameModule().getToolBar().add(resetButton);
 
         disciplineButton = new JButton("PBS Disc.: " + DISCIPLINE_NONE);
         disciplineButton.setToolTipText(
-            "Click SX: tira 1d10 per la First Fire Discipline (IFT 2.1) | Click DX: reset");
+            "Left click: roll 1d10 for First Fire Discipline (IFT 2.1) | Right click: reset");
         disciplineButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -137,12 +141,17 @@ public class ASLPBSChecker extends AbstractConfigurable
         });
         getGameModule().getToolBar().add(disciplineButton);
 
-        Command c = new NullCommand();
-        c.append(new VASSAL.build.module.Chatter.DisplayText(
-                getGameModule().getChatter(),
-                "* ASLPBSChecker caricato"
-        ));
-        c.execute();
+        autoDiscToggle = new JToggleButton("PBS Auto-Disc.", autoFireDiscipline);
+        autoDiscToggle.setToolTipText("Enable/disable automatic Fire Discipline roll after each movement");
+        autoDiscToggle.addActionListener(e -> autoFireDiscipline = autoDiscToggle.isSelected());
+        getGameModule().getToolBar().add(autoDiscToggle);
+
+//        Command c = new NullCommand();
+//        c.append(new VASSAL.build.module.Chatter.DisplayText(
+//                getGameModule().getChatter(),
+//                "* ASLPBSChecker caricato"
+//        ));
+//        c.execute();
     }
 
     @Override
@@ -207,13 +216,16 @@ public class ASLPBSChecker extends AbstractConfigurable
     // -------------------------------------------------------------------------
 
     public void runUpdate(List<GamePiece> allDraggedPieces) {
-        for (GamePiece piece : allDraggedPieces) {
-            getGameModule().getChatter().send(
-                "*** PBS mossa: " + Decorator.getInnermost(piece).getName()
-                + " [" + piece.getId() + "]"
-            );
-        }
+//        for (GamePiece piece : allDraggedPieces) {
+//            getGameModule().getChatter().send(
+//                "*** PBS mossa: " + Decorator.getInnermost(piece).getName()
+//                + " [" + piece.getId() + "]"
+//            );
+//        }
         if (mainMap != null && mainMap.getVASLMap() != null) {
+            if (autoFireDiscipline) {
+                rollFireDiscipline();
+            }
             updateView((ArrayList<GamePiece>) allDraggedPieces);
         }
     }
@@ -258,10 +270,10 @@ public class ASLPBSChecker extends AbstractConfigurable
                 }
             }
         }
-        getGameModule().getChatter().send(
-            "*** PBS updateView: movingA=" + movingFactionA.size()
-            + " movingB=" + movingFactionB.size()
-        );
+//        getGameModule().getChatter().send(
+//            "*** PBS updateView: movingA=" + movingFactionA.size()
+//            + " movingB=" + movingFactionB.size()
+//        );
 
         generateFlareList();
     }
@@ -412,15 +424,15 @@ public class ASLPBSChecker extends AbstractConfigurable
         boolean isA      = isFactionA(piece);
         boolean isB      = isFactionB(piece);
         boolean isUnit   = onboard && VASLGameInterface.isUnitCounter(piece);
-        getGameModule().getChatter().send(
-            "*** canActivate '" + name + "'"
-            + " nat='" + nat + "'"
-            + " onboard=" + onboard
-            + " isA=" + isA + " isB=" + isB
-            + " isUnit=" + isUnit
-            + " fA1='" + factionANat1 + "' fA2='" + factionANat2
-            + "' fB1='" + factionBNat1 + "' fB2='" + factionBNat2 + "'"
-        );
+//        getGameModule().getChatter().send(
+//            "*** canActivate '" + name + "'"
+//            + " nat='" + nat + "'"
+//            + " onboard=" + onboard
+//            + " isA=" + isA + " isB=" + isB
+//            + " isUnit=" + isUnit
+//            + " fA1='" + factionANat1 + "' fA2='" + factionANat2
+//            + "' fB1='" + factionBNat1 + "' fB2='" + factionBNat2 + "'"
+//        );
     }
 
     private boolean canActivate(GamePiece piece) {
@@ -463,35 +475,35 @@ public class ASLPBSChecker extends AbstractConfigurable
     private void updateNationalities() {
         if (pbsSidesMap == null) return;
         GamePiece[] p = pbsSidesMap.getPieces();
-        getGameModule().getChatter().send(
-            "*** PBS updateNationalities(): pbsMap ha " + p.length + " pezzi"
-        );
-        for (GamePiece gp : p) {
-            java.awt.Point pos = gp.getPosition();
-            String pieceName = Decorator.getInnermost(gp).getName();
-            getGameModule().getChatter().send(
-                "***   pezzo: '" + pieceName + "' pos=(" + (int)pos.getX() + "," + (int)pos.getY() + ")"
-            );
-        }
-        for (String rn : new String[]{"NatA1","NatA2","NatB1","NatB2"}) {
-            VASSAL.build.module.map.boardPicker.board.Region r = pbsSidesMap.findRegion(rn);
-            if (r == null) {
-                getGameModule().getChatter().send("***   regione '" + rn + "': NOT FOUND");
-            } else {
-                getGameModule().getChatter().send(
-                    "***   regione '" + rn + "' origin=("
-                    + (int)r.getOrigin().getX() + "," + (int)r.getOrigin().getY() + ")"
-                );
-            }
-        }
+//        getGameModule().getChatter().send(
+//            "*** PBS updateNationalities(): pbsMap ha " + p.length + " pezzi"
+//        );
+//        for (GamePiece gp : p) {
+//            java.awt.Point pos = gp.getPosition();
+//            String pieceName = Decorator.getInnermost(gp).getName();
+//            getGameModule().getChatter().send(
+//                "***   pezzo: '" + pieceName + "' pos=(" + (int)pos.getX() + "," + (int)pos.getY() + ")"
+//            );
+//        }
+//        for (String rn : new String[]{"NatA1","NatA2","NatB1","NatB2"}) {
+//            VASSAL.build.module.map.boardPicker.board.Region r = pbsSidesMap.findRegion(rn);
+//            if (r == null) {
+//                getGameModule().getChatter().send("***   regione '" + rn + "': NOT FOUND");
+//            } else {
+//                getGameModule().getChatter().send(
+//                    "***   regione '" + rn + "' origin=("
+//                    + (int)r.getOrigin().getX() + "," + (int)r.getOrigin().getY() + ")"
+//                );
+//            }
+//        }
         factionANat1 = nationalityOfPieceInRegion(p, factionANat1, "NatA1");
         factionANat2 = nationalityOfPieceInRegion(p, factionANat2, "NatA2");
         factionBNat1 = nationalityOfPieceInRegion(p, factionBNat1, "NatB1");
         factionBNat2 = nationalityOfPieceInRegion(p, factionBNat2, "NatB2");
-        getGameModule().getChatter().send(
-            "*** PBS updateNationalities(): A1='" + factionANat1 + "' A2='" + factionANat2
-            + "' B1='" + factionBNat1 + "' B2='" + factionBNat2 + "'"
-        );
+//        getGameModule().getChatter().send(
+//            "*** PBS updateNationalities(): A1='" + factionANat1 + "' A2='" + factionANat2
+//            + "' B1='" + factionBNat1 + "' B2='" + factionBNat2 + "'"
+//        );
     }
 
     private String checkPieceLocation(GamePiece piece, String regionName) {
@@ -500,12 +512,12 @@ public class ASLPBSChecker extends AbstractConfigurable
         if (region == null) return "";
         java.awt.Point origin = region.getOrigin();
         boolean match = (currentPoint.getX() == origin.getX()) && (currentPoint.getY() == origin.getY());
-        getGameModule().getChatter().send(
-            "***   checkPieceLocation: '" + Decorator.getInnermost(piece).getName()
-            + "' pos=(" + (int)currentPoint.getX() + "," + (int)currentPoint.getY() + ")"
-            + " region='" + regionName + "' origin=(" + (int)origin.getX() + "," + (int)origin.getY() + ")"
-            + " match=" + match
-        );
+//        getGameModule().getChatter().send(
+//            "***   checkPieceLocation: '" + Decorator.getInnermost(piece).getName()
+//            + "' pos=(" + (int)currentPoint.getX() + "," + (int)currentPoint.getY() + ")"
+//            + " region='" + regionName + "' origin=(" + (int)origin.getX() + "," + (int)origin.getY() + ")"
+//            + " match=" + match
+//        );
         if (match) {
             return getNationality(piece);
         }
@@ -621,15 +633,15 @@ public class ASLPBSChecker extends AbstractConfigurable
     // -------------------------------------------------------------------------
 
     private boolean isPBSExtensionPresent() {
-        getGameModule().getChatter().send(
-                "*** PBS isPBSExtensionPresent(): searching for PBS Sides.."
-        );
+//        getGameModule().getChatter().send(
+//                "*** PBS isPBSExtensionPresent(): searching for PBS Sides.."
+//        );
         for (Buildable b : getGameModule().getBuildables()) {
             if (b instanceof Map && ((Map) b).getMapName().equals("PBS Sides")) {
                 pbsSidesMap = (Map) b;
-                getGameModule().getChatter().send(
-                        "*** PBS isPBSExtensionPresent(): found PBS Sides"
-                );
+//                getGameModule().getChatter().send(
+//                        "*** PBS isPBSExtensionPresent(): found PBS Sides"
+//                );
                 return true;
             }
         }
@@ -689,10 +701,10 @@ public class ASLPBSChecker extends AbstractConfigurable
             }
         }
 
-        getGameModule().getChatter().send(
-            "*** PBS setup(): mainMap=" + (mainMap != null ? mainMap.getMapName() : "null")
-            + " pbsMap=" + (pbsSidesMap != null ? pbsSidesMap.getMapName() : "null")
-        );
+//        getGameModule().getChatter().send(
+//            "*** PBS setup(): mainMap=" + (mainMap != null ? mainMap.getMapName() : "null")
+//            + " pbsMap=" + (pbsSidesMap != null ? pbsSidesMap.getMapName() : "null")
+//        );
     }
 
     @Override
@@ -748,24 +760,30 @@ public class ASLPBSChecker extends AbstractConfigurable
 
     @Override
     public Class<?>[] getAttributeTypes() {
-        return new Class<?>[] { String.class, NamedKeyStroke.class, NamedKeyStroke.class };
+        return new Class<?>[] { String.class, NamedKeyStroke.class, NamedKeyStroke.class, Boolean.class };
     }
 
     @Override
     public String[] getAttributeNames() {
-        return new String[] { NAME, CLEAR_FLARES_KEY, CHECK_ACTIVATIONS_KEY };
+        return new String[] { NAME, CLEAR_FLARES_KEY, CHECK_ACTIVATIONS_KEY, AUTO_FIRE_DISCIPLINE };
     }
 
     @Override
     public String[] getAttributeDescriptions() {
-        return new String[] { "ASLPBSChecker", "Clear Flares Key", "Check Activations Key" };
+        return new String[] {
+            "ASLPBSChecker",
+            "Clear Flares Key",
+            "Check Activations Key",
+            "Automatic Fire Discipline roll after each movement"
+        };
     }
 
     @Override
     public String getAttributeValueString(String key) {
-        if (NAME.equals(key))                 return getConfigureName();
-        if (CLEAR_FLARES_KEY.equals(key))     return NamedHotKeyConfigurer.encode(clearFlaresKey);
+        if (NAME.equals(key))                  return getConfigureName();
+        if (CLEAR_FLARES_KEY.equals(key))      return NamedHotKeyConfigurer.encode(clearFlaresKey);
         if (CHECK_ACTIVATIONS_KEY.equals(key)) return NamedHotKeyConfigurer.encode(checkActivationsKey);
+        if (AUTO_FIRE_DISCIPLINE.equals(key))  return String.valueOf(autoFireDiscipline);
         return null;
     }
 
@@ -779,6 +797,9 @@ public class ASLPBSChecker extends AbstractConfigurable
         } else if (CHECK_ACTIVATIONS_KEY.equals(key)) {
             if (value instanceof String) value = NamedHotKeyConfigurer.decode((String) value);
             checkActivationsKey = (NamedKeyStroke) value;
+        } else if (AUTO_FIRE_DISCIPLINE.equals(key)) {
+            if (value instanceof String) value = Boolean.valueOf((String) value);
+            autoFireDiscipline = Boolean.TRUE.equals(value);
         }
     }
 
