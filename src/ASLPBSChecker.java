@@ -45,16 +45,16 @@ public class ASLPBSChecker extends AbstractConfigurable
 
     protected VASLGameInterface VASLGameInterface;
 
-    ArrayList<GamePiece> movingFriendlyCounters = new ArrayList<>();
-    ArrayList<GamePiece> movingSuspectCounters  = new ArrayList<>();
+    ArrayList<GamePiece> movingFactionA = new ArrayList<>();
+    ArrayList<GamePiece> movingFactionB = new ArrayList<>();
 
     final ArrayList<GamePiece> pieceList = new ArrayList<>();
 
-    private String friendlyNationality  = "";
-    private String alliedNationalityOne = "";
-    private String alliedNationalityTwo = "";
-    private String enemyNationality     = "";
-    private int    nvr                  = -1;
+    private String factionANat1 = "";  // da regione NatA1 su PBS Tracker Sheet
+    private String factionANat2 = "";  // da regione NatA2 su PBS Tracker Sheet
+    private String factionBNat1 = "";  // da regione NatB1 su PBS Tracker Sheet
+    private String factionBNat2 = "";  // da regione NatB2 su PBS Tracker Sheet
+    private int    nvr          = -1;
 
     // -------------------------------------------------------------------------
     // Key bindings
@@ -153,9 +153,12 @@ public class ASLPBSChecker extends AbstractConfigurable
         mainMap = m;
     }
 
-    public boolean isEnabled() {
-        return isPBSExtensionPresent();
-    }
+//    public boolean isEnabled() {
+//        getGameModule().getChatter().send(
+//                "*** PBS isEnabled(): checking PBS extension presence"
+//        );
+//        return isPBSExtensionPresent();
+//    }
 
     @Override
     public void addTo(Buildable parent) {
@@ -265,18 +268,14 @@ public class ASLPBSChecker extends AbstractConfigurable
                     GamePiece currentPiece = pi.nextPiece();
                     if (canActivate(currentPiece)) {
                         clear = clearMovingCounters(clear);
-                        movingFriendlyCounters.add(currentPiece);
-                    } else if (canBeActivated(currentPiece)) {
-                        clear = clearMovingCounters(clear);
-                        movingSuspectCounters.add(currentPiece);
+                        if (isFactionA(currentPiece)) movingFactionA.add(currentPiece);
+                        else                          movingFactionB.add(currentPiece);
                     }
                 }
             } else if (canActivate(piece)) {
                 clear = clearMovingCounters(clear);
-                movingFriendlyCounters.add(piece);
-            } else if (canBeActivated(piece)) {
-                clear = clearMovingCounters(clear);
-                movingSuspectCounters.add(piece);
+                if (isFactionA(piece)) movingFactionA.add(piece);
+                else                   movingFactionB.add(piece);
             }
         }
 
@@ -286,7 +285,7 @@ public class ASLPBSChecker extends AbstractConfigurable
     private void generateFlareList() {
         pieceListClear();
 
-        if (!movingFriendlyCounters.isEmpty() || !movingSuspectCounters.isEmpty()) {
+        if (!movingFactionA.isEmpty() || !movingFactionB.isEmpty()) {
             GamePiece[] allPieces = mainMap.getPieces();
             for (GamePiece piece : allPieces) {
                 if (piece instanceof Stack) {
@@ -302,23 +301,26 @@ public class ASLPBSChecker extends AbstractConfigurable
 
     private void testActivation(GamePiece piece) {
         int range;
-        if (isOnboard(piece)) {
-            if (!movingFriendlyCounters.isEmpty()) {
-                for (GamePiece testPiece : movingFriendlyCounters) {
-                    if (!(testPiece == piece) && !isFriendlyUnit(piece) && piece.getName().contains("Suspect")) {
-                        CounterType counterType = getCounterType(testPiece);
-                        if ((range = losRange(testPiece, piece, counterType)) >= 0) {
-                            setPieceSpotted(testPiece, piece, range, true, counterType);
-                        }
-                    }
+        if (!isOnboard(piece)) return;
+
+        // Faction A moved → spot faction B pieces in LOS
+        if (!movingFactionA.isEmpty() && isFactionB(piece)) {
+            for (GamePiece mover : movingFactionA) {
+                if (mover == piece) continue;
+                CounterType ct = getCounterType(mover);
+                if ((range = losRange(mover, piece, ct)) >= 0) {
+                    setPieceSpotted(mover, piece, range, ct);
                 }
-            } else if (!movingSuspectCounters.isEmpty()) {
-                for (GamePiece testPiece : movingSuspectCounters) {
-                    if (!(testPiece == piece) && isFriendlyUnit(piece) && !piece.getName().contains("Suspect")) {
-                        if ((range = losRange(testPiece, piece, CounterType.NON_VEHICLE)) >= 0) {
-                            setPieceSpotted(piece, testPiece, range, false, CounterType.NON_VEHICLE);
-                        }
-                    }
+            }
+        }
+
+        // Faction B moved → spot faction A pieces in LOS
+        if (!movingFactionB.isEmpty() && isFactionA(piece)) {
+            for (GamePiece mover : movingFactionB) {
+                if (mover == piece) continue;
+                CounterType ct = getCounterType(mover);
+                if ((range = losRange(mover, piece, ct)) >= 0) {
+                    setPieceSpotted(mover, piece, range, ct);
                 }
             }
         }
@@ -361,28 +363,25 @@ public class ASLPBSChecker extends AbstractConfigurable
         return range;
     }
 
-    private void setPieceSpotted(GamePiece viewed, GamePiece viewer, int range, boolean friendly, CounterType counterType) {
+    // viewed = il mover che ha rivelato il viewer; viewer = la pedina che viene segnalata
+    private void setPieceSpotted(GamePiece viewed, GamePiece viewer, int range, CounterType counterType) {
         if (!Decorator.getInnermost(viewer).getName().isEmpty()) {
             if (viewer instanceof Decorator || viewer instanceof BasicPiece) {
                 if (!pieceList.contains(viewer)) {
                     pieceList.add(viewer);
-                    if (friendly) {
-                        int rangeBracket;
-                        switch (counterType) {
-                            case VEHICLE:
-                            case TRACKED_VEHICLE:
-                                rangeBracket = getVehicleRangeBracket(viewed, viewer, range);
-                                break;
-                            default:
-                                rangeBracket = activationRangesInfantry[getActivationRangesIndex(getSuspectNationality(viewer))][range];
-                                break;
-                        }
-                        if (rangeBracket != 0) {
-                            viewer.setProperty("ActivationFlag", 2);
-                            viewer.setProperty("RangeBracket", rangeBracket);
-                        }
-                    } else {
+                    int rangeBracket;
+                    switch (counterType) {
+                        case VEHICLE:
+                        case TRACKED_VEHICLE:
+                            rangeBracket = getVehicleRangeBracket(viewed, viewer, range);
+                            break;
+                        default:
+                            rangeBracket = activationRangesInfantry[getActivationRangesIndex(getNationality(viewer))][range];
+                            break;
+                    }
+                    if (rangeBracket != 0) {
                         viewer.setProperty("ActivationFlag", 2);
+                        viewer.setProperty("RangeBracket", rangeBracket);
                     }
                 }
             }
@@ -390,7 +389,7 @@ public class ASLPBSChecker extends AbstractConfigurable
     }
 
     private int getVehicleRangeBracket(GamePiece viewed, GamePiece viewer, int range) {
-        int result = activationRangesVehicles[getActivationRangesIndex(getSuspectNationality(viewer))][range];
+        int result = activationRangesVehicles[getActivationRangesIndex(getNationality(viewer))][range];
         VehicleStatus vehicleStatus = VehicleStatus.UNARMORED;
         if (viewed.getName().contains("BU")) {
             vehicleStatus = VehicleStatus.BUTTONED_UP;
@@ -415,8 +414,8 @@ public class ASLPBSChecker extends AbstractConfigurable
 
     private boolean clearMovingCounters(boolean clear) {
         if (clear) {
-            movingFriendlyCounters.clear();
-            movingSuspectCounters.clear();
+            movingFactionA.clear();
+            movingFactionB.clear();
         }
         return false;
     }
@@ -426,7 +425,8 @@ public class ASLPBSChecker extends AbstractConfigurable
     // -------------------------------------------------------------------------
 
     private boolean canActivate(GamePiece piece) {
-        if (!isOnboard(piece) || !isFriendlyUnit(piece)) return false;
+        if (!isOnboard(piece)) return false;
+        if (!isFactionA(piece) && !isFactionB(piece)) return false;
         if (piece.getName().contains("?")) return true;
         if (!VASLGameInterface.isUnitCounter(piece)) return false;
         return !piece.getName().contains("broken")
@@ -434,9 +434,14 @@ public class ASLPBSChecker extends AbstractConfigurable
             && !piece.getName().contains("Prisoner");
     }
 
-    private boolean canBeActivated(GamePiece piece) {
-        if (!isOnboard(piece) || isFriendlyUnit(piece)) return false;
-        return piece.getName().contains("Suspect");
+    private boolean isFactionA(GamePiece piece) {
+        String nat = getNationality(piece);
+        return !nat.isEmpty() && (nat.equals(factionANat1) || nat.equals(factionANat2));
+    }
+
+    private boolean isFactionB(GamePiece piece) {
+        String nat = getNationality(piece);
+        return !nat.isEmpty() && (nat.equals(factionBNat1) || nat.equals(factionBNat2));
     }
 
     CounterType getCounterType(GamePiece piece) {
@@ -467,14 +472,6 @@ public class ASLPBSChecker extends AbstractConfigurable
         return false;
     }
 
-    private boolean isFriendlyUnit(GamePiece piece) {
-        String nationality = getNationality(piece);
-        return !nationality.isEmpty()
-            && (nationality.equals(friendlyNationality)
-             || nationality.equals(alliedNationalityOne)
-             || nationality.equals(alliedNationalityTwo));
-    }
-
     private boolean isOnboard(GamePiece piece) {
         return (VASLGameInterface.getLocation(piece) != null);
     }
@@ -492,21 +489,6 @@ public class ASLPBSChecker extends AbstractConfigurable
         return "";
     }
 
-    private String getEnemyNationality(GamePiece piece) {
-        Object prop = piece.getProperty("SuspectNationality");
-        return (prop != null) ? prop.toString() : "";
-    }
-
-    private String getSuspectNationality(GamePiece piece) {
-        String nationality = "None";
-        Object prop = piece.getProperty("SuspectNationality");
-        if (prop != null) nationality = prop.toString();
-        if (nationality.equals("None") && !enemyNationality.isEmpty()) {
-            nationality = enemyNationality;
-        }
-        return nationality;
-    }
-
     private int getActivationRangesIndex(String nationality) {
         for (int i = 0; i < nationalities.length; i++) {
             if (nationalities[i].equals(nationality)) return i;
@@ -517,10 +499,13 @@ public class ASLPBSChecker extends AbstractConfigurable
     private void updateNationalities() {
         if (pbsMap == null) return;
         GamePiece[] p = pbsMap.getPieces();
-        friendlyNationality  = nationalityOfPieceInRegion(p, friendlyNationality,  "FrNat");
-        alliedNationalityOne = nationalityOfPieceInRegion(p, alliedNationalityOne, "AlNat1");
-        alliedNationalityTwo = nationalityOfPieceInRegion(p, alliedNationalityTwo, "AlNat2");
-        nationalityOfEnemy(p);
+        factionANat1 = nationalityOfPieceInRegion(p, factionANat1, "NatA1");
+        factionANat2 = nationalityOfPieceInRegion(p, factionANat2, "NatA2");
+        factionBNat1 = nationalityOfPieceInRegion(p, factionBNat1, "NatB1");
+        factionBNat2 = nationalityOfPieceInRegion(p, factionBNat2, "NatB2");
+        getGameModule().getChatter().send(
+                "*** PBS updateNationalities(): factionANat1=" + factionANat1
+        );
     }
 
     private String checkPieceLocation(GamePiece piece, String regionName) {
@@ -529,7 +514,7 @@ public class ASLPBSChecker extends AbstractConfigurable
         if ((region != null)
                 && (currentPoint.getX() == region.getOrigin().getX())
                 && (currentPoint.getY() == region.getOrigin().getY())) {
-            return regionName.equals("Enemy") ? getEnemyNationality(piece) : getNationality(piece);
+            return getNationality(piece);
         }
         return "";
     }
@@ -557,29 +542,6 @@ public class ASLPBSChecker extends AbstractConfigurable
             if (nationality.isEmpty()) result = "";
         }
         return result;
-    }
-
-    private void nationalityOfEnemy(GamePiece[] p) {
-        String nationality = "None";
-
-        outerloop:
-        for (GamePiece aP : p) {
-            if (aP instanceof Stack) {
-                for (PieceIterator pi = new PieceIterator(((Stack) aP).getPiecesIterator()); pi.hasMoreElements(); ) {
-                    String temp = checkPieceLocation(pi.nextPiece(), "Enemy");
-                    if (!temp.isEmpty()) { nationality = temp; break outerloop; }
-                }
-            } else {
-                String temp = checkPieceLocation(aP, "Enemy");
-                if (!temp.isEmpty()) { nationality = temp; break; }
-            }
-        }
-
-        if (enemyNationality.isEmpty()) {
-            if (!nationality.contains("None")) enemyNationality = nationality;
-        } else {
-            if (nationality.contains("None")) enemyNationality = "";
-        }
     }
 
     // -------------------------------------------------------------------------
@@ -666,9 +628,15 @@ public class ASLPBSChecker extends AbstractConfigurable
     // -------------------------------------------------------------------------
 
     private boolean isPBSExtensionPresent() {
+        getGameModule().getChatter().send(
+                "*** PBS isPBSExtensionPresent(): searching for PBS Tracker Sheet.."
+        );
         for (Buildable b : getGameModule().getBuildables()) {
             if (b instanceof Map && ((Map) b).getMapName().equals("PBS Tracker Sheet")) {
                 pbsMap = (Map) b;
+                getGameModule().getChatter().send(
+                        "*** PBS isPBSExtensionPresent(): found PBS Tracker Sheet"
+                );
                 return true;
             }
         }
@@ -708,6 +676,27 @@ public class ASLPBSChecker extends AbstractConfigurable
 
     @Override
     public void setup(boolean gameStarting) {
+        if (!gameStarting) return;
+
+        // pbsMap: cerca la mappa "PBS Tracker Sheet" tra tutte le mappe caricate
+        isPBSExtensionPresent();
+
+        // mainMap: se non già impostato via addTo(), cercalo tra tutte le Map attive
+        if (mainMap == null) {
+            for (Map m : Map.getMapList()) {
+                if (m instanceof ASLMap) {
+                    mainMap = (ASLMap) m;
+                    mainMap.addDrawComponent(this);
+                    mainMap.getView().addKeyListener(this);
+                    break;
+                }
+            }
+        }
+
+        getGameModule().getChatter().send(
+            "*** PBS setup(): mainMap=" + (mainMap != null ? mainMap.getMapName() : "null")
+            + " pbsMap=" + (pbsMap != null ? pbsMap.getMapName() : "null")
+        );
     }
 
     @Override
@@ -739,8 +728,8 @@ public class ASLPBSChecker extends AbstractConfigurable
     @Override
     public void keyPressed(KeyEvent e) {
         if (clearFlaresKey.equals(NamedKeyStroke.of(e))) {
-            movingFriendlyCounters.clear();
-            movingSuspectCounters.clear();
+            movingFactionA.clear();
+            movingFactionB.clear();
             pieceListClear();
             e.consume();
         } else if (checkActivationsKey.equals(NamedKeyStroke.of(e))) {
