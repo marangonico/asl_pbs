@@ -58,9 +58,9 @@
         <VASSAL.build.module.Map allowMultiple="false" backgroundcolor="255,255,255" buttonName="PBS Tracker Sheet" changeFormat="$message$" color="0,0,0" createFormat="$pieceName$ created in $location$ *" description="" edgeHeight="0" edgeWidth="0" hideKey="" hotkey="" icon="/images/map.gif" launch="true" mapName="PBS Tracker Sheet" markMoved="Never" markUnmovedHotkey="" markUnmovedIcon="/images/unmoved.gif" markUnmovedReport="" markUnmovedText="" markUnmovedTooltip="Mark all pieces on this map as not moved" moveKey="" moveToFormat="$pieceName$ moves $previousLocation$ &amp;rarr; $location$ *" moveWithinFormat="$pieceName$ moves $previousLocation$ &amp;rarr; $location$ *" onlyReportChangedLocation="false" showKey="" thickness="3">
             <VASSAL.build.module.map.BoardPicker addColumnText="Add column" addRowText="Add row" boardPrompt="Select board" slotHeight="125" slotScale="0.2" slotWidth="350" title="Choose Boards">
                 <VASSAL.build.module.map.boardPicker.Board image="tracker_sheet.png" name="PBS Tracker Sheet" reversible="false">
-                    <VASSAL.build.module.map.boardPicker.board.RegionGrid fontsize="9" snapto="false" visible="true">
-                        <VASSAL.build.module.map.boardPicker.board.Region name="VPAllied" originx="118" originy="14"/>
-                        <VASSAL.build.module.map.boardPicker.board.Region name="VPAxis" originx="60" originy="14"/>
+                    <VASSAL.build.module.map.boardPicker.board.RegionGrid fontsize="9" snapto="false" visible="false">
+                        <VASSAL.build.module.map.boardPicker.board.Region name="VPAllied" originx="118" originy="22"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="VPAxis" originx="60" originy="22"/>
                         <VASSAL.build.module.map.boardPicker.board.Region name="NVR" originx="56" originy="198"/>
                         <VASSAL.build.module.map.boardPicker.board.Region name="PF" originx="58" originy="300"/>
                         <VASSAL.build.module.map.boardPicker.board.Region name="TH" originx="60" originy="402"/>
@@ -73,10 +73,6 @@
                         <VASSAL.build.module.map.boardPicker.board.Region name="AlliedNoQuarter" originx="861" originy="792"/>
                         <VASSAL.build.module.map.boardPicker.board.Region name="AxisNoQuarter" originx="861" originy="869"/>
                         <VASSAL.build.module.map.boardPicker.board.Region name="Attacks" originx="800" originy="514"/>
-                        <VASSAL.build.module.map.boardPicker.board.Region name="NatA1" originx="153" originy="992"/>
-                        <VASSAL.build.module.map.boardPicker.board.Region name="NatA2" originx="245" originy="994"/>
-                        <VASSAL.build.module.map.boardPicker.board.Region name="NatB1" originx="574" originy="992"/>
-                        <VASSAL.build.module.map.boardPicker.board.Region name="NatB2" originx="660" originy="992"/>
                     </VASSAL.build.module.map.boardPicker.board.RegionGrid>
                 </VASSAL.build.module.map.boardPicker.Board>
             </VASSAL.build.module.map.BoardPicker>
@@ -291,5 +287,35 @@
     </VASSAL.build.module.ExtensionElement>
     <VASSAL.build.module.ExtensionElement target="">
         <VASL.build.module.ASLPBSChecker CheckActivationsKey="57353,0,d85f6a41" ClearFlaresKey="57352,0,d85f6a40" Name="ASLPBSChecker"/>
+    </VASSAL.build.module.ExtensionElement>
+    <VASSAL.build.module.ExtensionElement target="">
+        <VASSAL.build.module.Map allowMultiple="false" backgroundcolor="255,255,255" buttonName="PBS Sides" changeFormat="$message$" color="0,0,0" createFormat="$pieceName$ created in $location$ *" description="" edgeHeight="0" edgeWidth="0" hideKey="" hotkey="" icon="/images/map.gif" launch="true" mapName="PBS Sides" markMoved="Never" markUnmovedHotkey="" markUnmovedIcon="/images/unmoved.gif" markUnmovedReport="" markUnmovedText="" markUnmovedTooltip="Mark all pieces on this map as not moved" moveKey="" moveToFormat="$pieceName$ moves $previousLocation$ &amp;rarr; $location$ *" moveWithinFormat="$pieceName$ moves $previousLocation$ &amp;rarr; $location$ *" onlyReportChangedLocation="false" showKey="" thickness="3" tooltip="Put your counters here to designate nations sides">
+            <VASSAL.build.module.map.BoardPicker addColumnText="Add column" addRowText="Add row" boardPrompt="Select board" slotHeight="125" slotScale="0.2" slotWidth="350" title="Choose Boards">
+                <VASSAL.build.module.map.boardPicker.Board image="pbd_sides.png" name="PBS Sides" reversible="false">
+                    <VASSAL.build.module.map.boardPicker.board.RegionGrid fontsize="9" snapto="true" visible="false">
+                        <VASSAL.build.module.map.boardPicker.board.Region name="NatA1" originx="156" originy="55"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="NatA2" originx="241" originy="56"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="NatB1" originx="573" originy="51"/>
+                        <VASSAL.build.module.map.boardPicker.board.Region name="NatB2" originx="658" originy="51"/>
+                    </VASSAL.build.module.map.boardPicker.board.RegionGrid>
+                </VASSAL.build.module.map.boardPicker.Board>
+            </VASSAL.build.module.map.BoardPicker>
+            <VASSAL.build.module.map.StackMetrics bottom="40,0" disabled="false" down="37,0" exSepX="6" exSepY="18" top="38,0" unexSepX="2" unexSepY="4" up="39,0"/>
+            <VASSAL.build.module.map.ForwardToKeyBuffer/>
+            <VASSAL.build.module.map.Scroller/>
+            <VASSAL.build.module.map.ForwardToChatter/>
+            <VASSAL.build.module.map.MenuDisplayer/>
+            <VASSAL.build.module.map.MapCenterer/>
+            <VASSAL.build.module.map.StackExpander/>
+            <VASSAL.build.module.map.PieceMover/>
+            <VASSAL.build.module.map.KeyBufferer/>
+            <VASSAL.build.module.map.ImageSaver buttonText="" canDisable="false" disabledIcon="" hideWhenDisabled="false" hotkey="" icon="/images/camera.gif" propertyGate="" tooltip="Save map as PNG image"/>
+            <VASSAL.build.module.map.CounterDetailViewer bgColor="" borderColor="0,0,0" borderInnerThickness="2" borderThickness="2" borderWidth="0" centerAll="false" centerPiecesVertically="false" centerText="false" combineCounterSummary="false" counterReportFormat="" delay="700" description="" display="from top-most layer only" emptyHexReportForma="$LocationName$" enableHTML="false" extraTextPadding="0" fgColor="0,0,0" fontSize="9" graphicsZoom="1.0" hotkey="32,130" layerList="" minDisplayPieces="2" onlyShowFirstSummary="false" propertyFilter="" showDeck="false" showDeckDepth="1" showDeckMasked="false" showMoveSelectde="false" showNoStack="false" showNonMovable="false" showOnlyTopOfStack="false" showOverlap="false" showTerrainBeneath="never" showTerrainHeight="150" showTerrainSnappy="true" showTerrainText="$LocationName$" showTerrainWidth="150" showTerrainZoom="1.0" showgraph="true" showgraphsingle="false" showtext="false" showtextsingle="false" stopAfterShowing="false" stretchWidthPieces="false" stretchWidthSummary="false" summaryReportFormat="$LocationName$" unrotatePieces="false" version="4" verticalBottomText="10" verticalOffset="0" verticalTopText="5" zoomlevel="1.0"/>
+            <VASSAL.build.module.map.Flare circleColor="255,0,0" circleScale="true" circleSize="100" flareKey="keyAlt" flareName="Map Flare" flarePulses="6" flarePulsesPerSec="3" reportFormat=""/>
+            <VASSAL.build.module.map.Zoomer inButtonText="" inIconName="/images/zoomIn.gif" inTooltip="Zoom in" outButtonText="" outIconName="/images/zoomOut.gif" outTooltip="Zoom out" pickButtonText="" pickIconName="/images/zoom.png" pickTooltip="Select Zoom" zoomInKey="" zoomLevels="0.2,0.25,0.333,0.4,0.5,0.555,0.625,0.75,1.0,1.25,1.6" zoomOutKey="" zoomPickKey="" zoomStart="3"/>
+            <VASSAL.build.module.properties.GlobalProperties/>
+            <VASSAL.build.module.map.SelectionHighlighters/>
+            <VASSAL.build.module.map.HighlightLastMoved color="255,0,0" enabled="true" thickness="2"/>
+        </VASSAL.build.module.Map>
     </VASSAL.build.module.ExtensionElement>
 </VASSAL.build.module.ModuleExtension>

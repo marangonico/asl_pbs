@@ -40,8 +40,8 @@ public class ASLPBSChecker extends AbstractConfigurable
     public static ASLPBSChecker aslPBSChecker;
 
     protected static ASLMap mainMap;
-    protected static Map pbsMap;   // PBS Tracker Sheet  (≈ saslMap in SASLActivationChecker)
-    protected static Map sacMap;   // Scenario Aid Card  (night rules)
+    protected static Map pbsSidesMap;   // PBS Sides  (≈ saslMap in SASLActivationChecker)
+    protected static Map sacMap;        // Scenario Aid Card  (night rules)
 
     protected VASLGameInterface VASLGameInterface;
 
@@ -50,10 +50,10 @@ public class ASLPBSChecker extends AbstractConfigurable
 
     final ArrayList<GamePiece> pieceList = new ArrayList<>();
 
-    private String factionANat1 = "";  // da regione NatA1 su PBS Tracker Sheet
-    private String factionANat2 = "";  // da regione NatA2 su PBS Tracker Sheet
-    private String factionBNat1 = "";  // da regione NatB1 su PBS Tracker Sheet
-    private String factionBNat2 = "";  // da regione NatB2 su PBS Tracker Sheet
+    private String factionANat1 = "";  // da regione NatA1 su PBS Sides
+    private String factionANat2 = "";  // da regione NatA2 su PBS Sides
+    private String factionBNat1 = "";  // da regione NatB1 su PBS Sides
+    private String factionBNat2 = "";  // da regione NatB2 su PBS Sides
     private int    nvr          = -1;
 
     // -------------------------------------------------------------------------
@@ -249,7 +249,7 @@ public class ASLPBSChecker extends AbstractConfigurable
     private void updateView(ArrayList<GamePiece> movedunits) {
         boolean clear = true;
 
-        if ((pbsMap == null) && !isPBSExtensionPresent()) {
+        if ((pbsSidesMap == null) && !isPBSExtensionPresent()) {
             return;
         }
         if (mainMap == null || mainMap.getVASLMap() == null) {
@@ -497,23 +497,52 @@ public class ASLPBSChecker extends AbstractConfigurable
     }
 
     private void updateNationalities() {
-        if (pbsMap == null) return;
-        GamePiece[] p = pbsMap.getPieces();
+        if (pbsSidesMap == null) return;
+        GamePiece[] p = pbsSidesMap.getPieces();
+        getGameModule().getChatter().send(
+            "*** PBS updateNationalities(): pbsMap ha " + p.length + " pezzi"
+        );
+        for (GamePiece gp : p) {
+            java.awt.Point pos = gp.getPosition();
+            String pieceName = Decorator.getInnermost(gp).getName();
+            getGameModule().getChatter().send(
+                "***   pezzo: '" + pieceName + "' pos=(" + (int)pos.getX() + "," + (int)pos.getY() + ")"
+            );
+        }
+        for (String rn : new String[]{"NatA1","NatA2","NatB1","NatB2"}) {
+            VASSAL.build.module.map.boardPicker.board.Region r = pbsSidesMap.findRegion(rn);
+            if (r == null) {
+                getGameModule().getChatter().send("***   regione '" + rn + "': NOT FOUND");
+            } else {
+                getGameModule().getChatter().send(
+                    "***   regione '" + rn + "' origin=("
+                    + (int)r.getOrigin().getX() + "," + (int)r.getOrigin().getY() + ")"
+                );
+            }
+        }
         factionANat1 = nationalityOfPieceInRegion(p, factionANat1, "NatA1");
         factionANat2 = nationalityOfPieceInRegion(p, factionANat2, "NatA2");
         factionBNat1 = nationalityOfPieceInRegion(p, factionBNat1, "NatB1");
         factionBNat2 = nationalityOfPieceInRegion(p, factionBNat2, "NatB2");
         getGameModule().getChatter().send(
-                "*** PBS updateNationalities(): factionANat1=" + factionANat1
+            "*** PBS updateNationalities(): A1='" + factionANat1 + "' A2='" + factionANat2
+            + "' B1='" + factionBNat1 + "' B2='" + factionBNat2 + "'"
         );
     }
 
     private String checkPieceLocation(GamePiece piece, String regionName) {
         java.awt.Point currentPoint = piece.getPosition();
-        VASSAL.build.module.map.boardPicker.board.Region region = pbsMap.findRegion(regionName);
-        if ((region != null)
-                && (currentPoint.getX() == region.getOrigin().getX())
-                && (currentPoint.getY() == region.getOrigin().getY())) {
+        VASSAL.build.module.map.boardPicker.board.Region region = pbsSidesMap.findRegion(regionName);
+        if (region == null) return "";
+        java.awt.Point origin = region.getOrigin();
+        boolean match = (currentPoint.getX() == origin.getX()) && (currentPoint.getY() == origin.getY());
+        getGameModule().getChatter().send(
+            "***   checkPieceLocation: '" + Decorator.getInnermost(piece).getName()
+            + "' pos=(" + (int)currentPoint.getX() + "," + (int)currentPoint.getY() + ")"
+            + " region='" + regionName + "' origin=(" + (int)origin.getX() + "," + (int)origin.getY() + ")"
+            + " match=" + match
+        );
+        if (match) {
             return getNationality(piece);
         }
         return "";
@@ -629,13 +658,13 @@ public class ASLPBSChecker extends AbstractConfigurable
 
     private boolean isPBSExtensionPresent() {
         getGameModule().getChatter().send(
-                "*** PBS isPBSExtensionPresent(): searching for PBS Tracker Sheet.."
+                "*** PBS isPBSExtensionPresent(): searching for PBS Sides.."
         );
         for (Buildable b : getGameModule().getBuildables()) {
-            if (b instanceof Map && ((Map) b).getMapName().equals("PBS Tracker Sheet")) {
-                pbsMap = (Map) b;
+            if (b instanceof Map && ((Map) b).getMapName().equals("PBS Sides")) {
+                pbsSidesMap = (Map) b;
                 getGameModule().getChatter().send(
-                        "*** PBS isPBSExtensionPresent(): found PBS Tracker Sheet"
+                        "*** PBS isPBSExtensionPresent(): found PBS Sides"
                 );
                 return true;
             }
@@ -678,7 +707,7 @@ public class ASLPBSChecker extends AbstractConfigurable
     public void setup(boolean gameStarting) {
         if (!gameStarting) return;
 
-        // pbsMap: cerca la mappa "PBS Tracker Sheet" tra tutte le mappe caricate
+        // pbsMap: cerca la mappa "PBS Sides" tra tutte le mappe caricate
         isPBSExtensionPresent();
 
         // mainMap: se non già impostato via addTo(), cercalo tra tutte le Map attive
@@ -695,7 +724,7 @@ public class ASLPBSChecker extends AbstractConfigurable
 
         getGameModule().getChatter().send(
             "*** PBS setup(): mainMap=" + (mainMap != null ? mainMap.getMapName() : "null")
-            + " pbsMap=" + (pbsMap != null ? pbsMap.getMapName() : "null")
+            + " pbsMap=" + (pbsSidesMap != null ? pbsSidesMap.getMapName() : "null")
         );
     }
 
