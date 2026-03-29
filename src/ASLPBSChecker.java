@@ -30,9 +30,12 @@ import VASSAL.counters.Stack;
 import VASSAL.tools.NamedKeyStroke;
 
 import javax.swing.JButton;
+import javax.swing.SwingUtilities;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,8 +123,18 @@ public class ASLPBSChecker extends AbstractConfigurable
         getGameModule().getToolBar().add(resetButton);
 
         disciplineButton = new JButton("PBS Disc.: " + DISCIPLINE_NONE);
-        disciplineButton.setToolTipText("Tira 1d10 per la First Fire Discipline (IFT 2.1)");
-        disciplineButton.addActionListener(e -> rollFireDiscipline());
+        disciplineButton.setToolTipText(
+            "Click SX: tira 1d10 per la First Fire Discipline (IFT 2.1) | Click DX: reset");
+        disciplineButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    resetFireDiscipline();
+                } else if (SwingUtilities.isLeftMouseButton(e)) {
+                    rollFireDiscipline();
+                }
+            }
+        });
         getGameModule().getToolBar().add(disciplineButton);
 
         Command c = new NullCommand();
