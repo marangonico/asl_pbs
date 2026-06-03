@@ -199,7 +199,7 @@ public class ASLPBSChecker extends AbstractConfigurable
                 addPieceById(mv.getId(), acc, false);
 //                getGameModule().getChatter().send(
 //                        "*** PBS Moving on Main Map");
-//                }
+            }
         } else if (c instanceof ChangePiece) {
             addPieceById(((ChangePiece) c).getId(), acc, true);
         }
@@ -405,7 +405,7 @@ public class ASLPBSChecker extends AbstractConfigurable
 
     private void rollFireDiscipline() {
         int roll = rng.nextInt(10) + 1;          // 1–10
-        int drm  = lastWasInterdiction ? -3 : 0;
+        int drm  = lastWasInterdiction ? -4 : 0;
         int modified = roll + drm;
 
         boolean interdiction = modified <= 3;
