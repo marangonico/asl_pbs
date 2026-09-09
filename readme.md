@@ -1,6 +1,45 @@
 A VASL extension for playing ASL PBS (Play Both Sides)
 https://www.facebook.com/groups/358520268920548
 
+### Version
+
+Extension version: 1.00
+
+ASL PBS rules reference: v32
+
+### Credits
+
+Author: Nicola Marangon
+
+Base code derived from the SASL Activation Checking extension.
+
+## Using the extension
+
+The extension is loaded on top of a VASL game with an active ASL/VASL module, over the main map ("Main Map"). To work correctly it requires two additional maps in the module/scenario:
+
+- **PBS Sides**: a map with the regions `NatA1`, `NatA2`, `NatB1`, `NatB2` that define the two factions (Faction A / Faction B) based on the nationality of the pieces placed on those regions.
+- **Scenario Aid Card**: an optional map with the `NVR` (Night Vision Range) counter for night scenarios. If it's not present, or the NVR counter isn't found there, the extension also looks for it on the main map.
+
+### Automatic behavior
+
+On every move (drag or keyboard) or rotation of a piece on the Main Map, the extension:
+1. updates the nationalities of the two factions by reading the PBS Sides map;
+2. updates the night status (NVR, illumination from Starshell/IR/Blaze);
+3. computes the LOS from the moved pieces to the opposing faction's pieces;
+4. applies the `*ACTIVATE? (R=n)*` label to enemy pieces that are within LOS (and within NVR range, if in effect), where `n` is the range.
+
+### Toolbar buttons
+
+- **PBS Reset**: removes all `*ACTIVATE?*` labels from the pieces.
+- **PBS Disc.**: left click rolls 1d10 for Fire Discipline (IFT First Fire 2.1: modified result ≤3 = Interdiction, DRM -4 if the previous roll was already Interdiction); right click resets the indicator.
+- **PBS Auto-Disc.**: when enabled, automatically rolls Fire Discipline after each move.
+- **PBS Debug**: when enabled, prints diagnostic info to the chat (nationality, faction, NVR, illumination status) for every piece evaluated — useful during testing/development.
+
+### Keyboard shortcuts (configurable)
+
+- **Clear Flares** (default CTL+ALT+X): removes the `*ACTIVATE?*` labels and clears the stored "moving" pieces.
+- **Check Activations** (default CTL+ALT+S): forces an activation check on the currently selected pieces.
+
 ### build the class
 `javac --release 11 -d out -cp /home/nicola/fun-dev/vasl/target/classes:/home/nicola/fun-dev/vassal/vassal-app/target/classes src/ASLPBSChecker.java 
 `
