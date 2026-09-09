@@ -582,26 +582,19 @@ public class ASLPBSChecker extends AbstractConfigurable
     // -------------------------------------------------------------------------
 
     private void updateNightStatus() {
-        if ((sacMap != null) || isSacExtensionPresent()) {
-            nvr = getNvr();
+        if (sacMap == null) {
+            isSacExtensionPresent();
         }
+        nvr = getNvr();
     }
 
     private int getNvr() {
-        if (sacMap == null) return -1;
-        GamePiece[] p = sacMap.getPieces();
         GamePiece nvrPiece = null;
-
-        outerloop:
-        for (GamePiece aP : p) {
-            if (aP instanceof Stack) {
-                for (PieceIterator pi = new PieceIterator(((Stack) aP).getPiecesIterator()); pi.hasMoreElements(); ) {
-                    GamePiece temp = pi.nextPiece();
-                    if (temp.getName().contains("NVR")) { nvrPiece = temp; break outerloop; }
-                }
-            } else {
-                if (aP.getName().contains("NVR")) { nvrPiece = aP; break; }
-            }
+        if (sacMap != null) {
+            nvrPiece = findNvrPiece(sacMap.getPieces());
+        }
+        if (nvrPiece == null && mainMap != null) {
+            nvrPiece = findNvrPiece(mainMap.getPieces());
         }
 
         if (nvrPiece == null) return -1;
@@ -609,6 +602,20 @@ public class ASLPBSChecker extends AbstractConfigurable
         if (name.equals("NVR"))  return 1;
         if (name.equals("NVR7")) return 7;
         return Integer.parseInt(name.replace("NVR ", ""));
+    }
+
+    private GamePiece findNvrPiece(GamePiece[] p) {
+        for (GamePiece aP : p) {
+            if (aP instanceof Stack) {
+                for (PieceIterator pi = new PieceIterator(((Stack) aP).getPiecesIterator()); pi.hasMoreElements(); ) {
+                    GamePiece temp = pi.nextPiece();
+                    if (temp.getName().contains("NVR")) return temp;
+                }
+            } else {
+                if (aP.getName().contains("NVR")) return aP;
+            }
+        }
+        return null;
     }
 
     private boolean illuminated(GamePiece piece) {
