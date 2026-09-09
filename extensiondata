@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <data version="1">
-  <version>0.99a</version>
+  <version>0.99b</version>
   <extra1/>
   <extra2/>
-  <VassalVersion>3.7.20</VassalVersion>
-  <dateSaved>1774799341301</dateSaved>
+  <VassalVersion>3.7.22</VassalVersion>
+  <dateSaved>1780507297796</dateSaved>
   <description>ASL PBS (Play Both Sides)</description>
   <universal>false</universal>
 </data>
