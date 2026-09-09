@@ -45,6 +45,7 @@ import static VASSAL.build.GameModule.getGameModule;
 public class ASLPBSChecker extends AbstractConfigurable
         implements CommandEncoder, GameComponent, Drawable, KeyListener {
 
+    // TODO: dead code - never assigned or read anywhere in the codebase
     public static ASLPBSChecker aslPBSChecker;
 
     protected static ASLMap mainMap;
@@ -68,6 +69,9 @@ public class ASLPBSChecker extends AbstractConfigurable
     private final java.util.Random rng   = new java.util.Random();
     private javax.swing.JButton disciplineButton;
     private JToggleButton autoDiscToggle;
+
+    private boolean debugLogging = false;
+    private JToggleButton debugToggle;
 
     private static final java.util.regex.Pattern ACTIVATION_LABEL_PATTERN =
         java.util.regex.Pattern.compile("\\n?\\*ACTIVATE\\? \\(R=\\d+\\)\\*");
@@ -145,6 +149,11 @@ public class ASLPBSChecker extends AbstractConfigurable
         autoDiscToggle.setToolTipText("Enable/disable automatic Fire Discipline roll after each movement");
         autoDiscToggle.addActionListener(e -> autoFireDiscipline = autoDiscToggle.isSelected());
         getGameModule().getToolBar().add(autoDiscToggle);
+
+        debugToggle = new JToggleButton("PBS Debug", debugLogging);
+        debugToggle.setToolTipText("Enable/disable canActivate() diagnostic logging to chat");
+        debugToggle.addActionListener(e -> debugLogging = debugToggle.isSelected());
+        getGameModule().getToolBar().add(debugToggle);
 
 //        Command c = new NullCommand();
 //        c.append(new VASSAL.build.module.Chatter.DisplayText(
@@ -433,21 +442,25 @@ public class ASLPBSChecker extends AbstractConfigurable
     // -------------------------------------------------------------------------
 
     private void debugCanActivate(GamePiece piece) {
+        if (!debugLogging) return;
+
         String name = Decorator.getInnermost(piece).getName();
         String nat  = getNationality(piece);
         boolean onboard  = isOnboard(piece);
         boolean isA      = isFactionA(piece);
         boolean isB      = isFactionB(piece);
         boolean isUnit   = onboard && VASLGameInterface.isUnitCounter(piece);
-//        getGameModule().getChatter().send(
-//            "*** canActivate '" + name + "'"
-//            + " nat='" + nat + "'"
-//            + " onboard=" + onboard
-//            + " isA=" + isA + " isB=" + isB
-//            + " isUnit=" + isUnit
-//            + " fA1='" + factionANat1 + "' fA2='" + factionANat2
-//            + "' fB1='" + factionBNat1 + "' fB2='" + factionBNat2 + "'"
-//        );
+        boolean isLit    = onboard && illuminated(piece);
+        getGameModule().getChatter().send(
+            "*** canActivate '" + name + "'"
+            + " nat='" + nat + "'"
+            + " onboard=" + onboard
+            + " isA=" + isA + " isB=" + isB
+            + " isUnit=" + isUnit
+            + " fA1='" + factionANat1 + "' fA2='" + factionANat2
+            + "' fB1='" + factionBNat1 + "' fB2='" + factionBNat2 + "'"
+            + " nvr=" + nvr + " illuminated=" + isLit
+        );
     }
 
     private boolean canActivate(GamePiece piece) {
