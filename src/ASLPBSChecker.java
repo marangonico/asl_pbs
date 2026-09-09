@@ -620,11 +620,10 @@ public class ASLPBSChecker extends AbstractConfigurable
 
     private boolean illuminated(GamePiece piece) {
         GamePiece[] allPieces = mainMap.getPieces();
-        outerloop:
         for (GamePiece tempPiece : allPieces) {
             if (tempPiece instanceof Stack) {
                 for (PieceIterator pi = new PieceIterator(((Stack) tempPiece).getPiecesIterator()); pi.hasMoreElements(); ) {
-                    if (illuminates(piece, pi.nextPiece())) break outerloop;
+                    if (illuminates(piece, pi.nextPiece())) return true;
                 }
             } else {
                 if (illuminates(piece, tempPiece)) return true;
